@@ -1,0 +1,51 @@
+{
+ "actions": [],
+ "allow_bulk_edit": 1,
+ "allow_rename": 1,
+ "creation": "2026-07-08 15:01:45.886015",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "nozzle",
+  "start_reading",
+  "end_reading"
+ ],
+ "fields": [
+  {
+   "fieldname": "nozzle",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Nozzle",
+   "options": "Pump Nozzle",
+   "reqd": 1
+  },
+  {
+   "fieldname": "start_reading",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Start Reading"
+  },
+  {
+   "fieldname": "end_reading",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "End Reading"
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2026-07-08 15:08:18.074732",
+ "modified_by": "Administrator",
+ "module": "Fuel Pump Management System",
+ "name": "Shift Detail",
+ "owner": "Administrator",
+ "permissions": [],
+ "row_format": "Dynamic",
+ "rows_threshold_for_grid_search": 20,
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": []
+}
