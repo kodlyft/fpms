@@ -1,0 +1,10 @@
+node_modules
+build
+dist
+fpms/public/dist
+fpms/templates/includes
+fpms/public/js/lib
+*.min.js
+*.min.css
+*.svg
+*.md

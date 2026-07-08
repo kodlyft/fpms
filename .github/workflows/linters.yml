@@ -1,0 +1,59 @@
+name: Linters
+
+on:
+  pull_request: {}
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: linters-fpms-${{ github.event.number }}
+  cancel-in-progress: true
+
+jobs:
+  backend-linters:
+    name: Backend Linters
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python 3.14
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.14"
+          cache: pip
+
+      - name: Install and Run Pre-commit
+        uses: pre-commit/action@v3.0.0
+        env:
+          SKIP: no-commit-to-branch,prettier,eslint
+
+      - name: Download Semgrep rules
+        run: git clone --depth 1 https://github.com/frappe/semgrep-rules.git frappe-semgrep-rules
+
+      - name: Download semgrep
+        run: pip install semgrep
+
+      - name: Run Semgrep rules
+        run: |
+          semgrep ci \
+            --config ./frappe-semgrep-rules/rules \
+            --config r/python.lang.correctness \
+            --exclude-rule "frappe-semgrep-rules.rules.security.missing-argument-type-hint"
+
+  deps-vulnerable-check:
+    name: Vulnerable Dependency Check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.14"
+          cache: pip
+
+      - name: Install and run pip-audit
+        run: |
+          pip install pip-audit
+          pip-audit --desc on .

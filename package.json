@@ -1,0 +1,29 @@
+{
+  "name": "fpms",
+  "version": "0.0.1",
+  "description": "A complete fuel pump management system for Frappe and ERPNext",
+  "author": "Kodlyft <hello@kodlyft.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kodlyft/fpms.git"
+  },
+  "bugs": {
+    "url": "https://github.com/kodlyft/fpms/issues"
+  },
+  "homepage": "https://github.com/kodlyft/fpms#readme",
+  "keywords": [
+    "fpms",
+    "frappe",
+    "erpnext",
+    "petrol-pump",
+    "fuel-station",
+    "wet-stock",
+    "ogra",
+    "fbr",
+    "pakistan"
+  ],
+  "scripts": {
+    "prepare": "command -v pre-commit > /dev/null 2>&1 && pre-commit install && pre-commit install --hook-type commit-msg || true"
+  }
+}

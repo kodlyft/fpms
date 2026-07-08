@@ -3,11 +3,11 @@ name: CI
 on:
   push:
     branches:
-      - develop
+      - version-16
   pull_request:
 
 concurrency:
-  group: develop-fpms-${{ github.event.number }}
+  group: ci-fpms-${{ github.event.number }}
   cancel-in-progress: true
 
 jobs:
