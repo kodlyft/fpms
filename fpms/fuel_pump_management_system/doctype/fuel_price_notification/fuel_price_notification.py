@@ -16,17 +16,18 @@ class FuelPriceNotification(Document):
 	if TYPE_CHECKING:
 		from frappe.types import DF
 
+		from fpms.fuel_pump_management_system.doctype.fuel_price_component.fuel_price_component import (
+			FuelPriceComponent,
+		)
+
 		amended_from: DF.Link | None
-		climate_levy: DF.Currency
-		dealer_commission: DF.Currency
+		components: DF.Table[FuelPriceComponent]
 		effective_from: DF.Datetime
 		ex_depot_price: DF.Currency
 		item: DF.Link
 		item_price: DF.Link | None
 		naming_series: DF.Literal["FPMS-PRICE-.YYYY.-"]
 		ogra_reference: DF.Data | None
-		omc_margin: DF.Currency
-		pdl_per_litre: DF.Currency
 		price_list: DF.Link
 		retail_price: DF.Currency
 		status: DF.Literal["Draft", "Submitted", "Cancelled"]
@@ -45,13 +46,7 @@ class FuelPriceNotification(Document):
 		self.db_set("status", self._status_value())
 
 	def set_retail_price(self):
-		self.retail_price = (
-			flt(self.ex_depot_price)
-			+ flt(self.dealer_commission)
-			+ flt(self.omc_margin)
-			+ flt(self.pdl_per_litre)
-			+ flt(self.climate_levy)
-		)
+		self.retail_price = flt(self.ex_depot_price) + sum(flt(c.rate_per_litre) for c in self.components)
 
 	def set_status(self):
 		self.status = self._status_value()

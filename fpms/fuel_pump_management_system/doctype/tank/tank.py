@@ -21,6 +21,7 @@ class Tank(Document):
 		from fpms.fuel_pump_management_system.doctype.dip_chart_entry.dip_chart_entry import DipChartEntry
 
 		capacity_litres: DF.Float
+		company: DF.Link
 		dip_chart: DF.Table[DipChartEntry]
 		item: DF.Link
 		status: DF.Literal["Active", "Inactive", "Under Maintenance"]

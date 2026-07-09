@@ -4,11 +4,12 @@
  "docstatus": 0,
  "doctype": "Workspace Sidebar",
  "header_icon": "getting-started",
- "idx": 0,
+ "idx": 1,
  "items": [
   {
    "child": 0,
    "collapsible": 1,
+   "icon": "home",
    "indent": 0,
    "keep_closed": 0,
    "label": "Home",
@@ -20,6 +21,7 @@
   {
    "child": 0,
    "collapsible": 1,
+   "icon": "list",
    "indent": 0,
    "keep_closed": 0,
    "label": "Shift Reconciliation",
@@ -31,6 +33,7 @@
   {
    "child": 0,
    "collapsible": 1,
+   "icon": "list",
    "indent": 0,
    "keep_closed": 0,
    "label": "Dip Reading",
@@ -42,6 +45,7 @@
   {
    "child": 0,
    "collapsible": 1,
+   "icon": "list",
    "indent": 0,
    "keep_closed": 0,
    "label": "Fuel Price Notification",
@@ -53,16 +57,28 @@
   {
    "child": 0,
    "collapsible": 1,
+   "icon": "credit-card",
    "indent": 0,
    "keep_closed": 0,
-   "label": "Wet-Stock Variance",
-   "link_to": "Wet-Stock Variance",
-   "link_type": "Report",
+   "label": "Fuel Card",
+   "link_to": "Fuel Card",
+   "link_type": "DocType",
    "show_arrow": 0,
    "type": "Link"
+  },
+  {
+   "child": 0,
+   "collapsible": 1,
+   "icon": "list",
+   "indent": 0,
+   "keep_closed": 0,
+   "label": "Reports",
+   "link_type": "DocType",
+   "show_arrow": 0,
+   "type": "Section Break"
   }
  ],
- "modified": "2026-07-09 14:37:43.348774",
+ "modified": "2026-07-09 18:34:07.805061",
  "modified_by": "Administrator",
  "module": "Fuel Pump Management System",
  "name": "Fuel Pump Management System",

@@ -2,13 +2,14 @@
  "actions": [],
  "allow_rename": 1,
  "autoname": "naming_series:",
- "creation": "2026-07-09 00:00:00.000000",
+ "creation": "2026-07-09 00:00:00",
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
   "details_section",
   "naming_series",
   "supplier",
+  "company",
   "posting_date",
   "tank",
   "item",
@@ -26,6 +27,13 @@
   "volume_after",
   "received_litres",
   "shortfall_litres",
+  "valuation_section",
+  "rate",
+  "column_break_val",
+  "amount",
+  "charges_section",
+  "charges",
+  "total_charges",
   "quality_section",
   "temperature",
   "column_break_quality",
@@ -37,8 +45,7 @@
  "fields": [
   {
    "fieldname": "details_section",
-   "fieldtype": "Section Break",
-   "label": "Tanker Receipt"
+   "fieldtype": "Section Break"
   },
   {
    "default": "FPMS-TANKER-.YYYY.-",
@@ -71,7 +78,8 @@
    "in_standard_filter": 1,
    "label": "Tank",
    "options": "Tank",
-   "reqd": 1
+   "reqd": 1,
+   "search_index": 1
   },
   {
    "fetch_from": "tank.item",
@@ -175,6 +183,47 @@
    "read_only": 1
   },
   {
+   "fieldname": "valuation_section",
+   "fieldtype": "Section Break",
+   "label": "Purchase Valuation"
+  },
+  {
+   "default": "0",
+   "description": "Purchase cost per litre. Defaults to the ex-depot price from the latest Fuel Price Notification; edit to match the OMC invoice.",
+   "fieldname": "rate",
+   "fieldtype": "Currency",
+   "label": "Purchase Rate / Litre",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_val",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "amount",
+   "fieldtype": "Currency",
+   "label": "Purchase Amount",
+   "read_only": 1
+  },
+  {
+   "fieldname": "charges_section",
+   "fieldtype": "Section Break",
+   "label": "Levies & Charges (embedded in purchase)"
+  },
+  {
+   "description": "Breakdown of the levies / taxes embedded in this purchase, for tracking. Auto-filled from Fuel Pump Settings defaults; edit to match the OMC invoice. This does not change the stock valuation.",
+   "fieldname": "charges",
+   "fieldtype": "Table",
+   "label": "Charges",
+   "options": "Fuel Purchase Charge"
+  },
+  {
+   "fieldname": "total_charges",
+   "fieldtype": "Currency",
+   "label": "Total Levies & Charges",
+   "read_only": 1
+  },
+  {
    "fieldname": "quality_section",
    "fieldtype": "Section Break",
    "label": "Quality (optional)"
@@ -182,7 +231,7 @@
   {
    "fieldname": "temperature",
    "fieldtype": "Float",
-   "label": "Temperature (°C)"
+   "label": "Temperature (\u00b0C)"
   },
   {
    "fieldname": "column_break_quality",
@@ -216,13 +265,20 @@
    "print_hide": 1,
    "read_only": 1,
    "search_index": 1
+  },
+  {
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "label": "Company",
+   "options": "Company",
+   "reqd": 1
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2026-07-09 00:00:00.000000",
+ "modified": "2026-07-09 18:52:43.843480",
  "modified_by": "Administrator",
  "module": "Fuel Pump Management System",
  "name": "Tanker Receipt",
@@ -269,5 +325,6 @@
  "sort_field": "creation",
  "sort_order": "DESC",
  "states": [],
+ "title_field": "supplier",
  "track_changes": 1
 }

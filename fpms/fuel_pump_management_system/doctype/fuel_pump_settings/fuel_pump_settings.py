@@ -13,12 +13,17 @@ class FuelPumpSettings(Document):
 	if TYPE_CHECKING:
 		from frappe.types import DF
 
+		from fpms.fuel_pump_management_system.doctype.fuel_price_component.fuel_price_component import (
+			FuelPriceComponent,
+		)
+
 		auto_stock_reconcile: DF.Check
 		dealer_commission_account: DF.Link | None
 		default_company: DF.Link | None
 		default_customer: DF.Link | None
 		default_pos_profile: DF.Link | None
 		default_price_list: DF.Link | None
+		default_purchase_charges: DF.Table[FuelPriceComponent]
 		default_tanker_supplier: DF.Link | None
 		enable_vcf: DF.Check
 		excess_account: DF.Link | None

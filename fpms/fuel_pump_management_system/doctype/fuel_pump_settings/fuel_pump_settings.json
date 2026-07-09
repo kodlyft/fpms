@@ -21,7 +21,9 @@
   "dealer_commission_account",
   "shortage_account",
   "column_break_accounts",
-  "excess_account"
+  "excess_account",
+  "purchase_charges_section",
+  "default_purchase_charges"
  ],
  "fields": [
   {
@@ -119,6 +121,18 @@
    "fieldtype": "Link",
    "label": "Shift Excess Account",
    "options": "Account"
+  },
+  {
+   "fieldname": "purchase_charges_section",
+   "fieldtype": "Section Break",
+   "label": "Default Purchase Levies & Charges"
+  },
+  {
+   "description": "Standard levies / taxes embedded in fuel purchases. New Tanker Receipts pre-fill their Charges table from these rows (scaled by received litres).",
+   "fieldname": "default_purchase_charges",
+   "fieldtype": "Table",
+   "label": "Default Purchase Charges",
+   "options": "Fuel Price Component"
   }
  ],
  "grid_page_length": 50,

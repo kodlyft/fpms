@@ -16,11 +16,7 @@
   "status",
   "buildup_section",
   "ex_depot_price",
-  "dealer_commission",
-  "omc_margin",
-  "column_break_buildup",
-  "pdl_per_litre",
-  "climate_levy",
+  "components",
   "retail_price",
   "postings_section",
   "item_price",
@@ -90,41 +86,21 @@
   },
   {
    "default": "0",
+   "description": "Base purchase cost per litre paid to the OMC. Used to value tanker receipts.",
    "fieldname": "ex_depot_price",
    "fieldtype": "Currency",
    "label": "Ex-Depot Price"
   },
   {
-   "default": "0",
-   "fieldname": "dealer_commission",
-   "fieldtype": "Currency",
-   "label": "Dealer Commission"
-  },
-  {
-   "default": "0",
-   "fieldname": "omc_margin",
-   "fieldtype": "Currency",
-   "label": "OMC Margin"
-  },
-  {
-   "fieldname": "column_break_buildup",
-   "fieldtype": "Column Break"
-  },
-  {
-   "default": "0",
-   "fieldname": "pdl_per_litre",
-   "fieldtype": "Currency",
-   "label": "Petroleum Development Levy"
-  },
-  {
-   "default": "0",
-   "fieldname": "climate_levy",
-   "fieldtype": "Currency",
-   "label": "Climate Support Levy"
+   "description": "Everything added on top of the ex-depot price to reach the retail price (dealer commission, OMC margin, PDL, climate levy, sales tax, customs duty, IFEM, ...). Add or remove rows as OGRA revises the build-up.",
+   "fieldname": "components",
+   "fieldtype": "Table",
+   "label": "Build-up Components",
+   "options": "Fuel Price Component"
   },
   {
    "bold": 1,
-   "description": "Sum of the build-up components published as the effective-dated Item Price.",
+   "description": "Ex-depot price plus all build-up components. Published as the effective-dated Item Price.",
    "fieldname": "retail_price",
    "fieldtype": "Currency",
    "in_list_view": 1,

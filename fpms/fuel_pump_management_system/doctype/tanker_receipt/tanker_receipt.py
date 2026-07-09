@@ -6,6 +6,8 @@ from frappe import _
 from frappe.model.document import Document
 from frappe.utils import flt
 
+from fpms.events.pricing import get_effective_ex_depot
+
 
 class TankerReceipt(Document):
 	# begin: auto-generated types
@@ -16,8 +18,15 @@ class TankerReceipt(Document):
 	if TYPE_CHECKING:
 		from frappe.types import DF
 
+		from fpms.fuel_pump_management_system.doctype.fuel_purchase_charge.fuel_purchase_charge import (
+			FuelPurchaseCharge,
+		)
+
 		amended_from: DF.Link | None
+		amount: DF.Currency
 		bol_litres: DF.Float
+		charges: DF.Table[FuelPurchaseCharge]
+		company: DF.Link
 		density: DF.Float
 		dip_after_mm: DF.Float
 		dip_before_mm: DF.Float
@@ -27,12 +36,14 @@ class TankerReceipt(Document):
 		posting_date: DF.Date
 		purchase_order: DF.Link | None
 		purchase_receipt: DF.Link | None
+		rate: DF.Currency
 		received_litres: DF.Float
 		shortfall_litres: DF.Float
 		status: DF.Literal["Draft", "Submitted", "Cancelled"]
 		supplier: DF.Link
 		tank: DF.Link
 		temperature: DF.Float
+		total_charges: DF.Currency
 		vehicle_number: DF.Data | None
 		volume_after: DF.Float
 		volume_before: DF.Float
@@ -40,6 +51,8 @@ class TankerReceipt(Document):
 
 	def validate(self):
 		self.set_quantities()
+		self.set_valuation()
+		self.set_charges()
 		self.set_status()
 
 	def on_submit(self):
@@ -61,6 +74,54 @@ class TankerReceipt(Document):
 		if self.received_litres < 0:
 			frappe.throw(_("Dip after decantation cannot be lower than dip before."))
 
+	def set_valuation(self):
+		"""Default the purchase rate so the receipt never values stock at zero."""
+		if not self.rate:
+			self.rate = self._default_rate()
+		self.amount = flt(self.received_litres) * flt(self.rate)
+
+	def _default_rate(self):
+		if self.purchase_order and self.item:
+			po_rate = frappe.db.get_value(
+				"Purchase Order Item",
+				{"parent": self.purchase_order, "item_code": self.item},
+				"rate",
+			)
+			if po_rate:
+				return flt(po_rate)
+		ex_depot = get_effective_ex_depot(self.item, self.posting_date)
+		if ex_depot:
+			return ex_depot
+		return flt(frappe.db.get_value("Item", self.item, "last_purchase_rate")) or flt(
+			frappe.db.get_value("Item", self.item, "valuation_rate")
+		)
+
+	def set_charges(self):
+		"""Track the levies/charges embedded in this purchase (does not change valuation).
+
+		If left blank, seed the rows from the default purchase charges configured in Fuel Pump
+		Settings; then value each row for the received quantity.
+		"""
+		if not self.charges:
+			for default in frappe.get_all(
+				"Fuel Price Component",
+				filters={"parenttype": "Fuel Pump Settings", "parentfield": "default_purchase_charges"},
+				fields=["component", "rate_per_litre", "account"],
+				order_by="idx asc",
+			):
+				self.append(
+					"charges",
+					{
+						"component": default.component,
+						"rate_per_litre": default.rate_per_litre,
+						"account": default.account,
+					},
+				)
+
+		for row in self.charges:
+			row.amount = flt(row.rate_per_litre) * flt(self.received_litres)
+		self.total_charges = sum(flt(row.amount) for row in self.charges)
+
 	def set_status(self):
 		self.status = self._status_value()
 
@@ -68,12 +129,21 @@ class TankerReceipt(Document):
 		return {0: "Draft", 1: "Submitted", 2: "Cancelled"}[self.docstatus]
 
 	def create_purchase_receipt(self):
-		"""Create a Purchase Receipt for the dip-verified received quantity."""
+		"""
+		Create a Purchase Receipt for the dip-verified received quantity.
+
+		The purchase rate is set explicitly so fuel never enters stock at zero valuation
+		(which would corrupt COGS on every subsequent sale).
+		"""
 		if self.purchase_receipt or flt(self.received_litres) <= 0:
 			return
 
+		if flt(self.rate) <= 0:
+			frappe.throw(_("Set a Purchase Rate / Litre so the received fuel is valued correctly."))
+
 		warehouse = frappe.db.get_value("Tank", self.tank, "warehouse")
 		pr = frappe.new_doc("Purchase Receipt")
+		pr.company = self.company
 		pr.supplier = self.supplier
 		pr.posting_date = self.posting_date
 		pr.set_posting_time = 1
@@ -82,8 +152,8 @@ class TankerReceipt(Document):
 			{
 				"item_code": self.item,
 				"qty": self.received_litres,
+				"rate": self.rate,
 				"warehouse": warehouse,
-				"purchase_order": self.purchase_order,
 			},
 		)
 		pr.set_missing_values()

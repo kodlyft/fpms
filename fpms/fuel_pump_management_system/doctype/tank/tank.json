@@ -2,11 +2,12 @@
  "actions": [],
  "allow_rename": 1,
  "autoname": "field:tank_name",
- "creation": "2026-07-09 00:00:00.000000",
+ "creation": "2026-07-09 00:00:00",
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
   "tank_name",
+  "company",
   "warehouse",
   "item",
   "column_break_main",
@@ -73,6 +74,13 @@
    "fieldtype": "Table",
    "label": "Dip Chart",
    "options": "Dip Chart Entry"
+  },
+  {
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "label": "Company",
+   "options": "Company",
+   "reqd": 1
   }
  ],
  "grid_page_length": 50,
@@ -94,7 +102,7 @@
    "link_fieldname": "tank"
   }
  ],
- "modified": "2026-07-09 00:00:00.000000",
+ "modified": "2026-07-09 18:47:05.320336",
  "modified_by": "Administrator",
  "module": "Fuel Pump Management System",
  "name": "Tank",
