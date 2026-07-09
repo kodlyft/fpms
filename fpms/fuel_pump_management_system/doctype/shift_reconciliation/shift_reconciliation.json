@@ -1,0 +1,257 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "naming_series:",
+ "creation": "2026-07-08 14:47:12.400769",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "shift_details_section",
+  "naming_series",
+  "shift_date",
+  "shift_type",
+  "employee",
+  "column_break_ytmk",
+  "pos_profile",
+  "shift_start_time",
+  "shift_end_time",
+  "status",
+  "readings_section",
+  "reading_details",
+  "payments_section",
+  "payment_details",
+  "totals_section",
+  "total_fuel_litres",
+  "total_fuel_sales",
+  "column_break_totals",
+  "total_collected",
+  "variance_amount",
+  "variance_status",
+  "postings_section",
+  "sales_invoice",
+  "column_break_postings",
+  "stock_entry",
+  "amended_from"
+ ],
+ "fields": [
+  {
+   "fieldname": "shift_details_section",
+   "fieldtype": "Section Break",
+   "label": "Shift Details"
+  },
+  {
+   "default": "FPMS-SHIFT-.YYYY.-",
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "label": "Series",
+   "options": "FPMS-SHIFT-.YYYY.-"
+  },
+  {
+   "default": "Today",
+   "fieldname": "shift_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Shift Date",
+   "reqd": 1
+  },
+  {
+   "fieldname": "shift_type",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Shift Type",
+   "options": "Shift Type"
+  },
+  {
+   "fieldname": "employee",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Attendant",
+   "options": "Employee"
+  },
+  {
+   "fieldname": "column_break_ytmk",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "pos_profile",
+   "fieldtype": "Link",
+   "label": "POS Profile",
+   "options": "POS Profile"
+  },
+  {
+   "fieldname": "shift_start_time",
+   "fieldtype": "Time",
+   "label": "Shift Start Time"
+  },
+  {
+   "fieldname": "shift_end_time",
+   "fieldtype": "Time",
+   "label": "Shift End Time"
+  },
+  {
+   "default": "Draft",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_standard_filter": 1,
+   "label": "Status",
+   "no_copy": 1,
+   "options": "Draft\nSubmitted\nCancelled",
+   "read_only": 1
+  },
+  {
+   "fieldname": "readings_section",
+   "fieldtype": "Section Break",
+   "label": "Nozzle Readings"
+  },
+  {
+   "fieldname": "reading_details",
+   "fieldtype": "Table",
+   "label": "Reading Details",
+   "options": "Nozzle Reading"
+  },
+  {
+   "fieldname": "payments_section",
+   "fieldtype": "Section Break",
+   "label": "Collections"
+  },
+  {
+   "fieldname": "payment_details",
+   "fieldtype": "Table",
+   "label": "Payment Details",
+   "options": "Shift Payment"
+  },
+  {
+   "fieldname": "totals_section",
+   "fieldtype": "Section Break",
+   "label": "Reconciliation"
+  },
+  {
+   "fieldname": "total_fuel_litres",
+   "fieldtype": "Float",
+   "label": "Total Fuel (Litres)",
+   "precision": "3",
+   "read_only": 1
+  },
+  {
+   "fieldname": "total_fuel_sales",
+   "fieldtype": "Currency",
+   "label": "Total Fuel Sales",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_totals",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "total_collected",
+   "fieldtype": "Currency",
+   "label": "Total Collected",
+   "read_only": 1
+  },
+  {
+   "description": "Collected minus calculated fuel sales. Positive = excess, negative = shortage.",
+   "fieldname": "variance_amount",
+   "fieldtype": "Currency",
+   "label": "Variance Amount",
+   "read_only": 1
+  },
+  {
+   "fieldname": "variance_status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Variance Status",
+   "options": "Balanced\nShortage\nExcess",
+   "read_only": 1
+  },
+  {
+   "fieldname": "postings_section",
+   "fieldtype": "Section Break",
+   "label": "Postings"
+  },
+  {
+   "fieldname": "sales_invoice",
+   "fieldtype": "Link",
+   "label": "Sales Invoice",
+   "no_copy": 1,
+   "options": "Sales Invoice",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_postings",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "stock_entry",
+   "fieldtype": "Link",
+   "label": "Stock Entry",
+   "no_copy": 1,
+   "options": "Stock Entry",
+   "read_only": 1
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Shift Reconciliation",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "is_submittable": 1,
+ "links": [],
+ "modified": "2026-07-09 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Fuel Pump Management System",
+ "name": "Shift Reconciliation",
+ "naming_rule": "By \"Naming Series\" field",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "FPMS Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "FPMS Cashier",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "shift_type",
+ "track_changes": 1
+}

@@ -1,0 +1,144 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2026-07-08 14:49:32.067336",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "nozzle_id",
+  "nozzle_name",
+  "status",
+  "column_break_main",
+  "dispenser",
+  "tank",
+  "item",
+  "readings_section",
+  "current_totalizer",
+  "column_break_readings",
+  "last_calibration",
+  "next_calibration_due"
+ ],
+ "fields": [
+  {
+   "fieldname": "nozzle_id",
+   "fieldtype": "Data",
+   "label": "Nozzle ID",
+   "set_only_once": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "nozzle_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Nozzle Name",
+   "reqd": 1
+  },
+  {
+   "default": "Active",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Status",
+   "options": "Active\nInactive\nUnder Maintenance"
+  },
+  {
+   "fieldname": "column_break_main",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "dispenser",
+   "fieldtype": "Link",
+   "in_standard_filter": 1,
+   "label": "Dispenser",
+   "options": "Dispenser"
+  },
+  {
+   "fieldname": "tank",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Tank",
+   "options": "Tank"
+  },
+  {
+   "fetch_from": "tank.item",
+   "fieldname": "item",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Fuel Item",
+   "options": "Item"
+  },
+  {
+   "fieldname": "readings_section",
+   "fieldtype": "Section Break",
+   "label": "Readings & Calibration"
+  },
+  {
+   "default": "0",
+   "fieldname": "current_totalizer",
+   "fieldtype": "Float",
+   "label": "Current Totalizer (Litres)",
+   "precision": "3"
+  },
+  {
+   "fieldname": "column_break_readings",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "last_calibration",
+   "fieldtype": "Date",
+   "label": "Last Calibration"
+  },
+  {
+   "fieldname": "next_calibration_due",
+   "fieldtype": "Date",
+   "label": "Next Calibration Due"
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-07-09 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Fuel Pump Management System",
+ "name": "Nozzle",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "FPMS Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "read": 1,
+   "report": 1,
+   "role": "FPMS Operator"
+  }
+ ],
+ "row_format": "Dynamic",
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "nozzle_name",
+ "track_changes": 1
+}

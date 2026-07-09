@@ -1,0 +1,103 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2026-07-08 15:01:45.886015",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "nozzle",
+  "item",
+  "opening_reading",
+  "closing_reading",
+  "testing_litres",
+  "sale_litres",
+  "rate",
+  "sale_amount"
+ ],
+ "fields": [
+  {
+   "columns": 2,
+   "fieldname": "nozzle",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Nozzle",
+   "options": "Nozzle",
+   "reqd": 1
+  },
+  {
+   "fetch_from": "nozzle.item",
+   "fieldname": "item",
+   "fieldtype": "Link",
+   "label": "Fuel Item",
+   "options": "Item",
+   "read_only": 1
+  },
+  {
+   "columns": 1,
+   "default": "0",
+   "fieldname": "opening_reading",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Opening Reading",
+   "precision": "3"
+  },
+  {
+   "columns": 1,
+   "default": "0",
+   "fieldname": "closing_reading",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Closing Reading",
+   "precision": "3"
+  },
+  {
+   "columns": 1,
+   "default": "0",
+   "fieldname": "testing_litres",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Testing (L)",
+   "precision": "3"
+  },
+  {
+   "columns": 1,
+   "fieldname": "sale_litres",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Sale (L)",
+   "precision": "3",
+   "read_only": 1
+  },
+  {
+   "columns": 1,
+   "fieldname": "rate",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Rate",
+   "read_only": 1
+  },
+  {
+   "columns": 2,
+   "fieldname": "sale_amount",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Sale Amount",
+   "read_only": 1
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2026-07-09 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Fuel Pump Management System",
+ "name": "Nozzle Reading",
+ "owner": "Administrator",
+ "permissions": [],
+ "row_format": "Dynamic",
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": []
+}

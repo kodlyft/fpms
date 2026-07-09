@@ -1,0 +1,139 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "field:tank_name",
+ "creation": "2026-07-09 00:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "tank_name",
+  "warehouse",
+  "item",
+  "column_break_main",
+  "capacity_litres",
+  "status",
+  "dip_chart_section",
+  "dip_chart"
+ ],
+ "fields": [
+  {
+   "fieldname": "tank_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Tank Name",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "warehouse",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Warehouse",
+   "options": "Warehouse",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "item",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Fuel Item",
+   "options": "Item",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_main",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "capacity_litres",
+   "fieldtype": "Float",
+   "label": "Capacity (Litres)",
+   "precision": "3"
+  },
+  {
+   "default": "Active",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_standard_filter": 1,
+   "label": "Status",
+   "options": "Active\nInactive\nUnder Maintenance"
+  },
+  {
+   "fieldname": "dip_chart_section",
+   "fieldtype": "Section Break",
+   "label": "Dip / Strapping Chart"
+  },
+  {
+   "description": "Strapping table mapping dip depth (mm) to volume (litres). Rows must be sorted by ascending dip.",
+   "fieldname": "dip_chart",
+   "fieldtype": "Table",
+   "label": "Dip Chart",
+   "options": "Dip Chart Entry"
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "links": [
+  {
+   "group": "Operations",
+   "link_doctype": "Dip Reading",
+   "link_fieldname": "tank"
+  },
+  {
+   "group": "Operations",
+   "link_doctype": "Tanker Receipt",
+   "link_fieldname": "tank"
+  },
+  {
+   "group": "Operations",
+   "link_doctype": "Nozzle",
+   "link_fieldname": "tank"
+  }
+ ],
+ "modified": "2026-07-09 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Fuel Pump Management System",
+ "name": "Tank",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "FPMS Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "read": 1,
+   "report": 1,
+   "role": "FPMS Operator"
+  }
+ ],
+ "row_format": "Dynamic",
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

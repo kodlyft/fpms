@@ -1,29 +1,28 @@
 {
  "actions": [],
- "allow_bulk_edit": 1,
- "autoname": "field:fleet_name",
- "creation": "2026-07-08 13:43:28.894040",
+ "allow_rename": 1,
+ "autoname": "field:card_number",
+ "creation": "2026-07-09 00:00:00.000000",
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
-  "fleet_name",
+  "card_number",
   "customer",
-  "model",
-  "column_break_ruyh",
-  "number_plate",
-  "capacity_litres",
-  "contact_section",
-  "driver_name",
-  "driver_contact",
-  "column_break_contact",
-  "fuel_card"
+  "fleet",
+  "column_break_main",
+  "status",
+  "valid_upto",
+  "balances_section",
+  "credit_limit",
+  "column_break_bal",
+  "balance"
  ],
  "fields": [
   {
-   "fieldname": "fleet_name",
+   "fieldname": "card_number",
    "fieldtype": "Data",
    "in_list_view": 1,
-   "label": "Fleet Name",
+   "label": "Card Number",
    "reqd": 1,
    "unique": 1
   },
@@ -33,54 +32,54 @@
    "in_list_view": 1,
    "in_standard_filter": 1,
    "label": "Customer",
-   "options": "Customer"
+   "options": "Customer",
+   "reqd": 1
   },
   {
-   "fieldname": "model",
-   "fieldtype": "Data",
-   "label": "Model"
-  },
-  {
-   "fieldname": "number_plate",
-   "fieldtype": "Data",
-   "in_list_view": 1,
-   "label": "Number Plate"
-  },
-  {
-   "fieldname": "capacity_litres",
-   "fieldtype": "Int",
-   "label": "Capacity (Litres)",
-   "non_negative": 1
-  },
-  {
-   "fieldname": "column_break_ruyh",
-   "fieldtype": "Column Break"
-  },
-  {
-   "fieldname": "contact_section",
-   "fieldtype": "Section Break",
-   "label": "Driver & Card"
-  },
-  {
-   "fieldname": "driver_name",
-   "fieldtype": "Data",
-   "label": "Driver Name"
-  },
-  {
-   "fieldname": "driver_contact",
-   "fieldtype": "Data",
-   "label": "Driver Contact",
-   "options": "Phone"
-  },
-  {
-   "fieldname": "column_break_contact",
-   "fieldtype": "Column Break"
-  },
-  {
-   "fieldname": "fuel_card",
+   "fieldname": "fleet",
    "fieldtype": "Link",
-   "label": "Fuel Card",
-   "options": "Fuel Card"
+   "label": "Fleet",
+   "options": "Fleet"
+  },
+  {
+   "fieldname": "column_break_main",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "Active",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Status",
+   "options": "Active\nBlocked\nExpired"
+  },
+  {
+   "fieldname": "valid_upto",
+   "fieldtype": "Date",
+   "label": "Valid Upto"
+  },
+  {
+   "fieldname": "balances_section",
+   "fieldtype": "Section Break",
+   "label": "Balances"
+  },
+  {
+   "default": "0",
+   "fieldname": "credit_limit",
+   "fieldtype": "Currency",
+   "label": "Credit Limit"
+  },
+  {
+   "fieldname": "column_break_bal",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "balance",
+   "fieldtype": "Currency",
+   "label": "Balance",
+   "read_only": 1
   }
  ],
  "grid_page_length": 50,
@@ -89,7 +88,7 @@
  "modified": "2026-07-09 00:00:00.000000",
  "modified_by": "Administrator",
  "module": "Fuel Pump Management System",
- "name": "Fleet",
+ "name": "Fuel Card",
  "naming_rule": "By fieldname",
  "owner": "Administrator",
  "permissions": [
@@ -121,5 +120,6 @@
  "row_format": "Dynamic",
  "sort_field": "creation",
  "sort_order": "DESC",
- "states": []
+ "states": [],
+ "track_changes": 1
 }

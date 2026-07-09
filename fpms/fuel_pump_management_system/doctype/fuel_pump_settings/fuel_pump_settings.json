@@ -1,0 +1,160 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2026-07-09 00:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "defaults_section",
+  "default_price_list",
+  "default_customer",
+  "default_pos_profile",
+  "column_break_defaults",
+  "default_tanker_supplier",
+  "default_company",
+  "reconciliation_section",
+  "variance_threshold_pct",
+  "enable_vcf",
+  "column_break_recon",
+  "auto_stock_reconcile",
+  "accounts_section",
+  "dealer_commission_account",
+  "shortage_account",
+  "column_break_accounts",
+  "excess_account"
+ ],
+ "fields": [
+  {
+   "fieldname": "defaults_section",
+   "fieldtype": "Section Break",
+   "label": "Defaults"
+  },
+  {
+   "fieldname": "default_price_list",
+   "fieldtype": "Link",
+   "label": "Default Selling Price List",
+   "options": "Price List"
+  },
+  {
+   "fieldname": "default_customer",
+   "fieldtype": "Link",
+   "label": "Default (Walk-in) Customer",
+   "options": "Customer"
+  },
+  {
+   "fieldname": "default_pos_profile",
+   "fieldtype": "Link",
+   "label": "Default POS Profile",
+   "options": "POS Profile"
+  },
+  {
+   "fieldname": "column_break_defaults",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "default_tanker_supplier",
+   "fieldtype": "Link",
+   "label": "Default OMC / Supplier",
+   "options": "Supplier"
+  },
+  {
+   "fieldname": "default_company",
+   "fieldtype": "Link",
+   "label": "Default Company",
+   "options": "Company"
+  },
+  {
+   "fieldname": "reconciliation_section",
+   "fieldtype": "Section Break",
+   "label": "Reconciliation"
+  },
+  {
+   "default": "0.5",
+   "description": "Variance beyond this percentage is flagged on dip readings.",
+   "fieldname": "variance_threshold_pct",
+   "fieldtype": "Percent",
+   "label": "Variance Threshold %"
+  },
+  {
+   "default": "0",
+   "description": "Apply ASTM D1250 volume correction to a reference temperature. Most Pakistani SME forecourts reconcile on gross litres.",
+   "fieldname": "enable_vcf",
+   "fieldtype": "Check",
+   "label": "Enable Volume Correction (VCF)"
+  },
+  {
+   "fieldname": "column_break_recon",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "description": "Create a Stock Reconciliation to true-up tank quantity when a Dip Reading is submitted.",
+   "fieldname": "auto_stock_reconcile",
+   "fieldtype": "Check",
+   "label": "Auto Stock-Reconcile on Dip Reading"
+  },
+  {
+   "fieldname": "accounts_section",
+   "fieldtype": "Section Break",
+   "label": "Accounts"
+  },
+  {
+   "fieldname": "dealer_commission_account",
+   "fieldtype": "Link",
+   "label": "Dealer Commission Income Account",
+   "options": "Account"
+  },
+  {
+   "fieldname": "shortage_account",
+   "fieldtype": "Link",
+   "label": "Shift Shortage Account",
+   "options": "Account"
+  },
+  {
+   "fieldname": "column_break_accounts",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "excess_account",
+   "fieldtype": "Link",
+   "label": "Shift Excess Account",
+   "options": "Account"
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "issingle": 1,
+ "links": [],
+ "modified": "2026-07-09 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Fuel Pump Management System",
+ "name": "Fuel Pump Settings",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "FPMS Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

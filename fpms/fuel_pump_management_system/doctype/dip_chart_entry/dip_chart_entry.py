@@ -4,7 +4,7 @@
 from frappe.model.document import Document
 
 
-class Fleet(Document):
+class DipChartEntry(Document):
 	# begin: auto-generated types
 	# This code is auto-generated. Do not modify anything in this block.
 
@@ -13,14 +13,11 @@ class Fleet(Document):
 	if TYPE_CHECKING:
 		from frappe.types import DF
 
-		capacity_litres: DF.Int
-		customer: DF.Link | None
-		driver_contact: DF.Data | None
-		driver_name: DF.Data | None
-		fleet_name: DF.Data
-		fuel_card: DF.Link | None
-		model: DF.Data | None
-		number_plate: DF.Data | None
+		dip_mm: DF.Float
+		parent: DF.Data
+		parentfield: DF.Data
+		parenttype: DF.Data
+		volume_litres: DF.Float
 	# end: auto-generated types
 
 	pass

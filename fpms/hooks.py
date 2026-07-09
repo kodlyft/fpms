@@ -85,8 +85,9 @@ required_apps = ["erpnext"]
 # Installation
 # ------------
 
-# before_install = "fpms.install.before_install"
-# after_install = "fpms.install.after_install"
+before_install = "fpms.setup.before_install"
+after_install = "fpms.setup.after_install"
+after_migrate = "fpms.setup.after_migrate"
 
 # Uninstallation
 # ------------
@@ -141,29 +142,20 @@ required_apps = ["erpnext"]
 doc_events = {
 	"Warehouse": {
 		"onload": "fpms.events.warehouse.on_load",
-	}
+	},
+	"Item Price": {
+		"on_update": "fpms.events.pricing.clear_price_cache",
+	},
 }
 
 # Scheduled Tasks
 # ---------------
 
-# scheduler_events = {
-# 	"all": [
-# 		"fpms.tasks.all"
-# 	],
-# 	"daily": [
-# 		"fpms.tasks.daily"
-# 	],
-# 	"hourly": [
-# 		"fpms.tasks.hourly"
-# 	],
-# 	"weekly": [
-# 		"fpms.tasks.weekly"
-# 	],
-# 	"monthly": [
-# 		"fpms.tasks.monthly"
-# 	],
-# }
+scheduler_events = {
+	"daily": [
+		"fpms.tasks.notify_license_expiry",
+	],
+}
 
 # Testing
 # -------
@@ -253,4 +245,3 @@ export_python_type_annotations = True
 # ------------
 # List of apps whose translatable strings should be excluded from this app's translations.
 # ignore_translatable_strings_from = []
-

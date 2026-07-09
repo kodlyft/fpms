@@ -1,0 +1,201 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "naming_series:",
+ "creation": "2026-07-09 00:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "details_section",
+  "naming_series",
+  "item",
+  "price_list",
+  "effective_from",
+  "column_break_main",
+  "ogra_reference",
+  "status",
+  "buildup_section",
+  "ex_depot_price",
+  "dealer_commission",
+  "omc_margin",
+  "column_break_buildup",
+  "pdl_per_litre",
+  "climate_levy",
+  "retail_price",
+  "postings_section",
+  "item_price",
+  "amended_from"
+ ],
+ "fields": [
+  {
+   "fieldname": "details_section",
+   "fieldtype": "Section Break",
+   "label": "Notification"
+  },
+  {
+   "default": "FPMS-PRICE-.YYYY.-",
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "label": "Series",
+   "options": "FPMS-PRICE-.YYYY.-"
+  },
+  {
+   "fieldname": "item",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Fuel Item",
+   "options": "Item",
+   "reqd": 1
+  },
+  {
+   "fieldname": "price_list",
+   "fieldtype": "Link",
+   "label": "Selling Price List",
+   "options": "Price List",
+   "reqd": 1
+  },
+  {
+   "default": "Now",
+   "fieldname": "effective_from",
+   "fieldtype": "Datetime",
+   "in_list_view": 1,
+   "label": "Effective From",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_main",
+   "fieldtype": "Column Break"
+  },
+  {
+   "description": "OGRA notification reference / SRO number.",
+   "fieldname": "ogra_reference",
+   "fieldtype": "Data",
+   "label": "OGRA Reference"
+  },
+  {
+   "default": "Draft",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_standard_filter": 1,
+   "label": "Status",
+   "no_copy": 1,
+   "options": "Draft\nSubmitted\nCancelled",
+   "read_only": 1
+  },
+  {
+   "fieldname": "buildup_section",
+   "fieldtype": "Section Break",
+   "label": "OGRA Price Build-up (per litre)"
+  },
+  {
+   "default": "0",
+   "fieldname": "ex_depot_price",
+   "fieldtype": "Currency",
+   "label": "Ex-Depot Price"
+  },
+  {
+   "default": "0",
+   "fieldname": "dealer_commission",
+   "fieldtype": "Currency",
+   "label": "Dealer Commission"
+  },
+  {
+   "default": "0",
+   "fieldname": "omc_margin",
+   "fieldtype": "Currency",
+   "label": "OMC Margin"
+  },
+  {
+   "fieldname": "column_break_buildup",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "pdl_per_litre",
+   "fieldtype": "Currency",
+   "label": "Petroleum Development Levy"
+  },
+  {
+   "default": "0",
+   "fieldname": "climate_levy",
+   "fieldtype": "Currency",
+   "label": "Climate Support Levy"
+  },
+  {
+   "bold": 1,
+   "description": "Sum of the build-up components — published as the effective-dated Item Price.",
+   "fieldname": "retail_price",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Retail Price",
+   "read_only": 1
+  },
+  {
+   "fieldname": "postings_section",
+   "fieldtype": "Section Break",
+   "label": "Postings"
+  },
+  {
+   "fieldname": "item_price",
+   "fieldtype": "Link",
+   "label": "Item Price",
+   "no_copy": 1,
+   "options": "Item Price",
+   "read_only": 1
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Fuel Price Notification",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "is_submittable": 1,
+ "links": [],
+ "modified": "2026-07-09 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Fuel Pump Management System",
+ "name": "Fuel Price Notification",
+ "naming_rule": "By \"Naming Series\" field",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "FPMS Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

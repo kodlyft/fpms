@@ -1,0 +1,273 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "naming_series:",
+ "creation": "2026-07-09 00:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "details_section",
+  "naming_series",
+  "supplier",
+  "posting_date",
+  "tank",
+  "item",
+  "column_break_main",
+  "purchase_order",
+  "driver_name",
+  "vehicle_number",
+  "status",
+  "quantities_section",
+  "bol_litres",
+  "dip_before_mm",
+  "dip_after_mm",
+  "column_break_qty",
+  "volume_before",
+  "volume_after",
+  "received_litres",
+  "shortfall_litres",
+  "quality_section",
+  "temperature",
+  "column_break_quality",
+  "density",
+  "postings_section",
+  "purchase_receipt",
+  "amended_from"
+ ],
+ "fields": [
+  {
+   "fieldname": "details_section",
+   "fieldtype": "Section Break",
+   "label": "Tanker Receipt"
+  },
+  {
+   "default": "FPMS-TANKER-.YYYY.-",
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "label": "Series",
+   "options": "FPMS-TANKER-.YYYY.-"
+  },
+  {
+   "fieldname": "supplier",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "OMC / Supplier",
+   "options": "Supplier",
+   "reqd": 1
+  },
+  {
+   "default": "Today",
+   "fieldname": "posting_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Posting Date",
+   "reqd": 1
+  },
+  {
+   "fieldname": "tank",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Tank",
+   "options": "Tank",
+   "reqd": 1
+  },
+  {
+   "fetch_from": "tank.item",
+   "fieldname": "item",
+   "fieldtype": "Link",
+   "label": "Fuel Item",
+   "options": "Item",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_main",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "purchase_order",
+   "fieldtype": "Link",
+   "label": "Purchase Order",
+   "options": "Purchase Order"
+  },
+  {
+   "fieldname": "driver_name",
+   "fieldtype": "Data",
+   "label": "Driver Name"
+  },
+  {
+   "fieldname": "vehicle_number",
+   "fieldtype": "Data",
+   "label": "Vehicle Number"
+  },
+  {
+   "default": "Draft",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_standard_filter": 1,
+   "label": "Status",
+   "no_copy": 1,
+   "options": "Draft\nSubmitted\nCancelled",
+   "read_only": 1
+  },
+  {
+   "fieldname": "quantities_section",
+   "fieldtype": "Section Break",
+   "label": "Quantities"
+  },
+  {
+   "default": "0",
+   "description": "Quantity per the Bill of Lading / OMC invoice.",
+   "fieldname": "bol_litres",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "BOL Quantity (Litres)",
+   "precision": "3"
+  },
+  {
+   "default": "0",
+   "fieldname": "dip_before_mm",
+   "fieldtype": "Float",
+   "label": "Dip Before (mm)",
+   "precision": "1"
+  },
+  {
+   "default": "0",
+   "fieldname": "dip_after_mm",
+   "fieldtype": "Float",
+   "label": "Dip After (mm)",
+   "precision": "1"
+  },
+  {
+   "fieldname": "column_break_qty",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "volume_before",
+   "fieldtype": "Float",
+   "label": "Volume Before (Litres)",
+   "precision": "3",
+   "read_only": 1
+  },
+  {
+   "fieldname": "volume_after",
+   "fieldtype": "Float",
+   "label": "Volume After (Litres)",
+   "precision": "3",
+   "read_only": 1
+  },
+  {
+   "description": "Dip-verified received quantity (volume after minus volume before).",
+   "fieldname": "received_litres",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Received (Litres)",
+   "precision": "3",
+   "read_only": 1
+  },
+  {
+   "description": "BOL quantity minus dip-verified received quantity.",
+   "fieldname": "shortfall_litres",
+   "fieldtype": "Float",
+   "label": "Shortfall (Litres)",
+   "precision": "3",
+   "read_only": 1
+  },
+  {
+   "fieldname": "quality_section",
+   "fieldtype": "Section Break",
+   "label": "Quality (optional)"
+  },
+  {
+   "fieldname": "temperature",
+   "fieldtype": "Float",
+   "label": "Temperature (°C)"
+  },
+  {
+   "fieldname": "column_break_quality",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "density",
+   "fieldtype": "Float",
+   "label": "Density (kg/L)",
+   "precision": "4"
+  },
+  {
+   "fieldname": "postings_section",
+   "fieldtype": "Section Break",
+   "label": "Postings"
+  },
+  {
+   "fieldname": "purchase_receipt",
+   "fieldtype": "Link",
+   "label": "Purchase Receipt",
+   "no_copy": 1,
+   "options": "Purchase Receipt",
+   "read_only": 1
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Tanker Receipt",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "is_submittable": 1,
+ "links": [],
+ "modified": "2026-07-09 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Fuel Pump Management System",
+ "name": "Tanker Receipt",
+ "naming_rule": "By \"Naming Series\" field",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "FPMS Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "FPMS Operator",
+   "submit": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

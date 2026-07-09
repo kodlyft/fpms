@@ -1,0 +1,250 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "naming_series:",
+ "creation": "2026-07-09 00:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "details_section",
+  "naming_series",
+  "tank",
+  "item",
+  "reading_datetime",
+  "column_break_main",
+  "employee",
+  "dip_mm",
+  "water_dip_mm",
+  "status",
+  "measurement_section",
+  "volume_litres",
+  "temperature",
+  "column_break_meas",
+  "density",
+  "variance_section",
+  "book_stock",
+  "variance_litres",
+  "column_break_var",
+  "variance_pct",
+  "within_tolerance",
+  "postings_section",
+  "stock_reconciliation",
+  "amended_from"
+ ],
+ "fields": [
+  {
+   "fieldname": "details_section",
+   "fieldtype": "Section Break",
+   "label": "Dip Reading"
+  },
+  {
+   "default": "FPMS-DIP-.YYYY.-",
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "label": "Series",
+   "options": "FPMS-DIP-.YYYY.-"
+  },
+  {
+   "fieldname": "tank",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Tank",
+   "options": "Tank",
+   "reqd": 1
+  },
+  {
+   "fetch_from": "tank.item",
+   "fieldname": "item",
+   "fieldtype": "Link",
+   "label": "Fuel Item",
+   "options": "Item",
+   "read_only": 1
+  },
+  {
+   "default": "Now",
+   "fieldname": "reading_datetime",
+   "fieldtype": "Datetime",
+   "in_list_view": 1,
+   "label": "Reading Date/Time",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_main",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "employee",
+   "fieldtype": "Link",
+   "label": "Measured By",
+   "options": "Employee"
+  },
+  {
+   "default": "0",
+   "fieldname": "dip_mm",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Dip (mm)",
+   "precision": "1",
+   "reqd": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "water_dip_mm",
+   "fieldtype": "Float",
+   "label": "Water Dip (mm)",
+   "precision": "1"
+  },
+  {
+   "default": "Draft",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_standard_filter": 1,
+   "label": "Status",
+   "no_copy": 1,
+   "options": "Draft\nSubmitted\nCancelled",
+   "read_only": 1
+  },
+  {
+   "fieldname": "measurement_section",
+   "fieldtype": "Section Break",
+   "label": "Measurement"
+  },
+  {
+   "fieldname": "volume_litres",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Volume (Litres)",
+   "precision": "3",
+   "read_only": 1
+  },
+  {
+   "description": "Optional — used only when volume correction (VCF) is enabled.",
+   "fieldname": "temperature",
+   "fieldtype": "Float",
+   "label": "Temperature (°C)"
+  },
+  {
+   "fieldname": "column_break_meas",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "density",
+   "fieldtype": "Float",
+   "label": "Density (kg/L)",
+   "precision": "4"
+  },
+  {
+   "fieldname": "variance_section",
+   "fieldtype": "Section Break",
+   "label": "Variance vs Book Stock"
+  },
+  {
+   "fieldname": "book_stock",
+   "fieldtype": "Float",
+   "label": "Book Stock (Litres)",
+   "precision": "3",
+   "read_only": 1
+  },
+  {
+   "fieldname": "variance_litres",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Variance (Litres)",
+   "precision": "3",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_var",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "variance_pct",
+   "fieldtype": "Percent",
+   "label": "Variance %",
+   "read_only": 1
+  },
+  {
+   "default": "1",
+   "fieldname": "within_tolerance",
+   "fieldtype": "Check",
+   "label": "Within Tolerance",
+   "read_only": 1
+  },
+  {
+   "fieldname": "postings_section",
+   "fieldtype": "Section Break",
+   "label": "Postings"
+  },
+  {
+   "fieldname": "stock_reconciliation",
+   "fieldtype": "Link",
+   "label": "Stock Reconciliation",
+   "no_copy": 1,
+   "options": "Stock Reconciliation",
+   "read_only": 1
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Dip Reading",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "is_submittable": 1,
+ "links": [],
+ "modified": "2026-07-09 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Fuel Pump Management System",
+ "name": "Dip Reading",
+ "naming_rule": "By \"Naming Series\" field",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "FPMS Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "FPMS Operator",
+   "submit": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}
