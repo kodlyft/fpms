@@ -11,44 +11,32 @@
   "supplier",
   "company",
   "posting_date",
-  "tank",
-  "item",
   "column_break_main",
   "purchase_order",
   "driver_name",
   "vehicle_number",
-  "quantities_section",
-  "bol_litres",
-  "dip_before_mm",
-  "dip_after_mm",
-  "column_break_qty",
-  "volume_before",
-  "volume_after",
-  "received_litres",
-  "shortfall_litres",
-  "valuation_section",
-  "rate",
-  "column_break_val",
-  "amount",
+  "status",
+  "items_section",
+  "items",
+  "totals_section",
+  "total_bol_litres",
+  "total_received_litres",
+  "column_break_totals",
+  "total_shortfall_litres",
+  "total_amount",
   "charges_section",
   "charges",
   "total_charges",
-  "quality_tab",
-  "quality_section",
-  "temperature",
-  "column_break_quality",
-  "density",
-  "more_info_tab",
-  "status_section",
-  "status",
   "postings_section",
   "purchase_receipt",
+  "column_break_post",
   "amended_from"
  ],
  "fields": [
   {
    "fieldname": "details_section",
-   "fieldtype": "Section Break"
+   "fieldtype": "Section Break",
+   "label": "Details"
   },
   {
    "default": "FPMS-TANKER-.YYYY.-",
@@ -67,6 +55,13 @@
    "reqd": 1
   },
   {
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "label": "Company",
+   "options": "Company",
+   "reqd": 1
+  },
+  {
    "default": "Today",
    "fieldname": "posting_date",
    "fieldtype": "Date",
@@ -75,30 +70,13 @@
    "reqd": 1
   },
   {
-   "fieldname": "tank",
-   "fieldtype": "Link",
-   "in_list_view": 1,
-   "in_standard_filter": 1,
-   "label": "Tank",
-   "options": "Tank",
-   "reqd": 1,
-   "search_index": 1
-  },
-  {
-   "fetch_from": "tank.item",
-   "fieldname": "item",
-   "fieldtype": "Link",
-   "label": "Fuel Item",
-   "options": "Item",
-   "read_only": 1
-  },
-  {
    "fieldname": "column_break_main",
    "fieldtype": "Column Break"
   },
   {
    "fieldname": "purchase_order",
    "fieldtype": "Link",
+   "in_standard_filter": 1,
    "label": "Purchase Order",
    "options": "Purchase Order"
   },
@@ -123,89 +101,52 @@
    "read_only": 1
   },
   {
-   "fieldname": "quantities_section",
+   "fieldname": "items_section",
    "fieldtype": "Section Break",
-   "label": "Quantities"
+   "label": "Items (one row per product / tank)"
   },
   {
-   "default": "0",
-   "description": "Quantity per the Bill of Lading / OMC invoice.",
-   "fieldname": "bol_litres",
-   "fieldtype": "Float",
-   "in_list_view": 1,
-   "label": "BOL Quantity (Litres)",
-   "precision": "3"
-  },
-  {
-   "default": "0",
-   "fieldname": "dip_before_mm",
-   "fieldtype": "Float",
-   "label": "Dip Before (mm)",
-   "precision": "1"
-  },
-  {
-   "default": "0",
-   "fieldname": "dip_after_mm",
-   "fieldtype": "Float",
-   "label": "Dip After (mm)",
-   "precision": "1"
-  },
-  {
-   "fieldname": "column_break_qty",
-   "fieldtype": "Column Break"
-  },
-  {
-   "fieldname": "volume_before",
-   "fieldtype": "Float",
-   "label": "Volume Before (Litres)",
-   "precision": "3",
-   "read_only": 1
-  },
-  {
-   "fieldname": "volume_after",
-   "fieldtype": "Float",
-   "label": "Volume After (Litres)",
-   "precision": "3",
-   "read_only": 1
-  },
-  {
-   "description": "Dip-verified received quantity (volume after minus volume before).",
-   "fieldname": "received_litres",
-   "fieldtype": "Float",
-   "in_list_view": 1,
-   "label": "Received (Litres)",
-   "precision": "3",
-   "read_only": 1
-  },
-  {
-   "description": "BOL quantity minus dip-verified received quantity.",
-   "fieldname": "shortfall_litres",
-   "fieldtype": "Float",
-   "label": "Shortfall (Litres)",
-   "precision": "3",
-   "read_only": 1
-  },
-  {
-   "fieldname": "valuation_section",
-   "fieldtype": "Section Break",
-   "label": "Purchase Valuation"
-  },
-  {
-   "default": "0",
-   "description": "Purchase cost per litre. Defaults to the ex-depot price from the latest Fuel Price Notification; edit to match the OMC invoice.",
-   "fieldname": "rate",
-   "fieldtype": "Currency",
-   "label": "Purchase Rate / Litre",
+   "description": "A single tanker can deliver multiple products (e.g. Petrol and Diesel) into different tanks — add one row per product.",
+   "fieldname": "items",
+   "fieldtype": "Table",
+   "label": "Items",
+   "options": "Tanker Receipt Item",
    "reqd": 1
   },
   {
-   "fieldname": "column_break_val",
+   "fieldname": "totals_section",
+   "fieldtype": "Section Break",
+   "label": "Totals"
+  },
+  {
+   "fieldname": "total_bol_litres",
+   "fieldtype": "Float",
+   "label": "Total BOL (Litres)",
+   "precision": "3",
+   "read_only": 1
+  },
+  {
+   "fieldname": "total_received_litres",
+   "fieldtype": "Float",
+   "label": "Total Received (Litres)",
+   "precision": "3",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_totals",
    "fieldtype": "Column Break"
   },
   {
-   "fieldname": "amount",
+   "fieldname": "total_shortfall_litres",
+   "fieldtype": "Float",
+   "label": "Total Shortfall (Litres)",
+   "precision": "3",
+   "read_only": 1
+  },
+  {
+   "fieldname": "total_amount",
    "fieldtype": "Currency",
-   "label": "Purchase Amount",
+   "label": "Total Purchase Amount",
    "read_only": 1
   },
   {
@@ -214,7 +155,7 @@
    "label": "Levies & Charges (embedded in purchase)"
   },
   {
-   "description": "Breakdown of the levies / taxes embedded in this purchase, for tracking. Auto-filled from Fuel Pump Settings defaults; edit to match the OMC invoice. This does not change the stock valuation.",
+   "description": "Levies / taxes embedded in this purchase, per fuel item, for tracking. Auto-filled from Fuel Pump Settings defaults; edit to match the OMC invoice. This does not change the stock valuation.",
    "fieldname": "charges",
    "fieldtype": "Table",
    "label": "Charges",
@@ -225,26 +166,6 @@
    "fieldtype": "Currency",
    "label": "Total Levies & Charges",
    "read_only": 1
-  },
-  {
-   "fieldname": "quality_section",
-   "fieldtype": "Section Break",
-   "label": "Quality (optional)"
-  },
-  {
-   "fieldname": "temperature",
-   "fieldtype": "Float",
-   "label": "Temperature (\u00b0C)"
-  },
-  {
-   "fieldname": "column_break_quality",
-   "fieldtype": "Column Break"
-  },
-  {
-   "fieldname": "density",
-   "fieldtype": "Float",
-   "label": "Density (kg/L)",
-   "precision": "4"
   },
   {
    "fieldname": "postings_section",
@@ -260,6 +181,10 @@
    "read_only": 1
   },
   {
+   "fieldname": "column_break_post",
+   "fieldtype": "Column Break"
+  },
+  {
    "fieldname": "amended_from",
    "fieldtype": "Link",
    "label": "Amended From",
@@ -268,35 +193,13 @@
    "print_hide": 1,
    "read_only": 1,
    "search_index": 1
-  },
-  {
-   "fieldname": "company",
-   "fieldtype": "Link",
-   "label": "Company",
-   "options": "Company",
-   "reqd": 1
-  },
-  {
-   "fieldname": "quality_tab",
-   "fieldtype": "Tab Break",
-   "label": "Quality"
-  },
-  {
-   "fieldname": "more_info_tab",
-   "fieldtype": "Tab Break",
-   "label": "More Info"
-  },
-  {
-   "fieldname": "status_section",
-   "fieldtype": "Section Break",
-   "label": "Status"
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2026-07-09 20:40:43.954427",
+ "modified": "2026-07-09 21:00:00.000000",
  "modified_by": "Administrator",
  "module": "Fuel Pump Management System",
  "name": "Tanker Receipt",

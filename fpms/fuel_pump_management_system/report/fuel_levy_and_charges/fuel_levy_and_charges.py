@@ -28,8 +28,13 @@ def get_columns():
 			"width": 150,
 		},
 		{"label": _("Fuel Item"), "fieldname": "item", "fieldtype": "Link", "options": "Item", "width": 130},
-		{"label": _("Component"), "fieldname": "component", "fieldtype": "Data", "width": 200},
-		{"label": _("Received (L)"), "fieldname": "received_litres", "fieldtype": "Float", "width": 110},
+		{
+			"label": _("Component"),
+			"fieldname": "component",
+			"fieldtype": "Link",
+			"options": "Fuel Charge Type",
+			"width": 200,
+		},
 		{"label": _("Rate / Litre"), "fieldname": "rate_per_litre", "fieldtype": "Currency", "width": 100},
 		{"label": _("Amount"), "fieldname": "amount", "fieldtype": "Currency", "width": 130},
 		{
@@ -47,10 +52,13 @@ def get_data(filters):
 	if filters.get("component"):
 		charge_filters["component"] = filters["component"]
 
+	if filters.get("item"):
+		charge_filters["item"] = filters["item"]
+
 	charges = frappe.get_all(
 		"Fuel Purchase Charge",
 		filters=charge_filters,
-		fields=["parent as tanker", "component", "rate_per_litre", "amount", "account"],
+		fields=["parent as tanker", "item", "component", "rate_per_litre", "amount", "account"],
 		order_by="creation desc",
 	)
 	if not charges:
@@ -62,7 +70,7 @@ def get_data(filters):
 		for t in frappe.get_all(
 			"Tanker Receipt",
 			filters={"name": ["in", list(tankers)], "docstatus": 1},
-			fields=["name", "posting_date", "supplier", "item", "received_litres"],
+			fields=["name", "posting_date", "supplier"],
 		)
 	}
 
@@ -78,13 +86,5 @@ def get_data(filters):
 			continue
 		if from_date and to_date and not (from_date <= str(parent.posting_date) <= to_date):
 			continue
-		data.append(
-			{
-				**c,
-				"posting_date": parent.posting_date,
-				"supplier": parent.supplier,
-				"item": parent.item,
-				"received_litres": parent.received_litres,
-			}
-		)
+		data.append({**c, "posting_date": parent.posting_date, "supplier": parent.supplier})
 	return data

@@ -109,6 +109,19 @@ def ensure_charge_types():
 	if not frappe.db.exists("DocType", "Fuel Charge Type"):
 		return
 
+	meta = frappe.get_meta("Fuel Charge Type")
+	company_field = meta.get_field("company")
+	default_company = None
+	if company_field:
+		default_company = frappe.db.get_single_value(
+			"Fuel Pump Settings", "default_company"
+		) or frappe.db.get_value("Company", {}, "name")
+		if company_field.reqd and default_company:
+			for name in frappe.get_all(
+				"Fuel Charge Type", filters={"company": ["is", "not set"]}, pluck="name"
+			):
+				frappe.db.set_value("Fuel Charge Type", name, "company", default_company)
+
 	names = set(FPMS_CHARGE_TYPES)
 	for child in ("Fuel Price Component", "Fuel Purchase Charge"):
 		if frappe.db.has_column(child, "component"):
@@ -120,9 +133,11 @@ def ensure_charge_types():
 
 	for name in names:
 		if not frappe.db.exists("Fuel Charge Type", name):
-			frappe.get_doc({"doctype": "Fuel Charge Type", "charge_type": name}).insert(
-				ignore_permissions=True
-			)
+			doc = frappe.new_doc("Fuel Charge Type")
+			doc.charge_type = name
+			if company_field and default_company:
+				doc.company = default_company
+			doc.insert(ignore_permissions=True)
 
 
 def _sales_tax_account(company):

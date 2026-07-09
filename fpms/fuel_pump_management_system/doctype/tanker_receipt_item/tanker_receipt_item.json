@@ -1,0 +1,144 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2026-07-09 00:00:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "tank",
+  "item",
+  "bol_litres",
+  "dip_before_mm",
+  "dip_after_mm",
+  "received_litres",
+  "shortfall_litres",
+  "rate",
+  "amount",
+  "volume_before",
+  "volume_after",
+  "temperature",
+  "density"
+ ],
+ "fields": [
+  {
+   "columns": 2,
+   "fieldname": "tank",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Tank",
+   "options": "Tank",
+   "reqd": 1
+  },
+  {
+   "columns": 2,
+   "fetch_from": "tank.item",
+   "fieldname": "item",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Fuel Item",
+   "options": "Item",
+   "read_only": 1
+  },
+  {
+   "columns": 1,
+   "default": "0",
+   "description": "Bill of Lading / OMC invoice quantity.",
+   "fieldname": "bol_litres",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "BOL (L)",
+   "precision": "3"
+  },
+  {
+   "columns": 1,
+   "default": "0",
+   "fieldname": "dip_before_mm",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Dip Before (mm)",
+   "precision": "1"
+  },
+  {
+   "columns": 1,
+   "default": "0",
+   "fieldname": "dip_after_mm",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Dip After (mm)",
+   "precision": "1"
+  },
+  {
+   "columns": 1,
+   "fieldname": "received_litres",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Received (L)",
+   "precision": "3",
+   "read_only": 1
+  },
+  {
+   "fieldname": "shortfall_litres",
+   "fieldtype": "Float",
+   "label": "Shortfall (L)",
+   "precision": "3",
+   "read_only": 1
+  },
+  {
+   "columns": 1,
+   "default": "0",
+   "description": "Purchase cost per litre. Defaults to the ex-depot price of the latest Fuel Price Notification.",
+   "fieldname": "rate",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Rate / Litre"
+  },
+  {
+   "columns": 1,
+   "fieldname": "amount",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Amount",
+   "read_only": 1
+  },
+  {
+   "fieldname": "volume_before",
+   "fieldtype": "Float",
+   "label": "Volume Before (L)",
+   "precision": "3",
+   "read_only": 1
+  },
+  {
+   "fieldname": "volume_after",
+   "fieldtype": "Float",
+   "label": "Volume After (L)",
+   "precision": "3",
+   "read_only": 1
+  },
+  {
+   "fieldname": "temperature",
+   "fieldtype": "Float",
+   "label": "Temperature (°C)"
+  },
+  {
+   "fieldname": "density",
+   "fieldtype": "Float",
+   "label": "Density (kg/L)",
+   "precision": "4"
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2026-07-09 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Fuel Pump Management System",
+ "name": "Tanker Receipt Item",
+ "owner": "Administrator",
+ "permissions": [],
+ "row_format": "Dynamic",
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": []
+}

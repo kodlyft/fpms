@@ -6,6 +6,7 @@
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
+  "item",
   "component",
   "rate_per_litre",
   "amount",
@@ -13,7 +14,16 @@
  ],
  "fields": [
   {
-   "columns": 4,
+   "columns": 2,
+   "description": "Fuel item this levy applies to.",
+   "fieldname": "item",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Fuel Item",
+   "options": "Item"
+  },
+  {
+   "columns": 3,
    "description": "Levy / charge embedded in this purchase. Pick from Fuel Charge Types.",
    "fieldname": "component",
    "fieldtype": "Link",

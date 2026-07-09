@@ -21,37 +21,32 @@ class TankerReceipt(Document):
 		from fpms.fuel_pump_management_system.doctype.fuel_purchase_charge.fuel_purchase_charge import (
 			FuelPurchaseCharge,
 		)
+		from fpms.fuel_pump_management_system.doctype.tanker_receipt_item.tanker_receipt_item import (
+			TankerReceiptItem,
+		)
 
 		amended_from: DF.Link | None
-		amount: DF.Currency
-		bol_litres: DF.Float
 		charges: DF.Table[FuelPurchaseCharge]
 		company: DF.Link
-		density: DF.Float
-		dip_after_mm: DF.Float
-		dip_before_mm: DF.Float
 		driver_name: DF.Data | None
-		item: DF.Link | None
+		items: DF.Table[TankerReceiptItem]
 		naming_series: DF.Literal["FPMS-TANKER-.YYYY.-"]
 		posting_date: DF.Date
 		purchase_order: DF.Link | None
 		purchase_receipt: DF.Link | None
-		rate: DF.Currency
-		received_litres: DF.Float
-		shortfall_litres: DF.Float
 		status: DF.Literal["Draft", "Submitted", "Cancelled"]
 		supplier: DF.Link
-		tank: DF.Link
-		temperature: DF.Float
+		total_amount: DF.Currency
+		total_bol_litres: DF.Float
 		total_charges: DF.Currency
+		total_received_litres: DF.Float
+		total_shortfall_litres: DF.Float
 		vehicle_number: DF.Data | None
-		volume_after: DF.Float
-		volume_before: DF.Float
 	# end: auto-generated types
 
 	def validate(self):
-		self.set_quantities()
-		self.set_valuation()
+		self.set_items()
+		self.set_totals()
 		self.set_charges()
 		self.set_status()
 
@@ -63,63 +58,75 @@ class TankerReceipt(Document):
 		self.cancel_purchase_receipt()
 		self.db_set("status", self._status_value())
 
-	def set_quantities(self):
-		tank = frappe.get_cached_doc("Tank", self.tank)
-		self.item = tank.item
-		self.volume_before = tank.interpolate_volume(self.dip_before_mm)
-		self.volume_after = tank.interpolate_volume(self.dip_after_mm)
-		self.received_litres = flt(self.volume_after) - flt(self.volume_before)
-		self.shortfall_litres = flt(self.bol_litres) - flt(self.received_litres)
+	def set_items(self):
+		"""Dip-verify and value each product row. A row is never valued at zero cost."""
+		for row in self.items:
+			tank = frappe.get_cached_doc("Tank", row.tank)
+			row.item = tank.item
+			row.volume_before = tank.interpolate_volume(row.dip_before_mm)
+			row.volume_after = tank.interpolate_volume(row.dip_after_mm)
+			row.received_litres = flt(row.volume_after) - flt(row.volume_before)
+			row.shortfall_litres = flt(row.bol_litres) - flt(row.received_litres)
 
-		if self.received_litres < 0:
-			frappe.throw(_("Dip after decantation cannot be lower than dip before."))
+			if row.received_litres < 0:
+				frappe.throw(
+					_("Row #{0}: dip after decantation cannot be lower than dip before.").format(row.idx)
+				)
 
-	def set_valuation(self):
-		"""Default the purchase rate so the receipt never values stock at zero."""
-		if not self.rate:
-			self.rate = self._default_rate()
-		self.amount = flt(self.received_litres) * flt(self.rate)
+			if not row.rate:
+				row.rate = self._default_rate(row.item)
+			row.amount = flt(row.received_litres) * flt(row.rate)
 
-	def _default_rate(self):
-		if self.purchase_order and self.item:
+	def _default_rate(self, item):
+		if self.purchase_order and item:
 			po_rate = frappe.db.get_value(
 				"Purchase Order Item",
-				{"parent": self.purchase_order, "item_code": self.item},
+				{"parent": self.purchase_order, "item_code": item},
 				"rate",
 			)
 			if po_rate:
 				return flt(po_rate)
-		ex_depot = get_effective_ex_depot(self.item, self.posting_date)
+		ex_depot = get_effective_ex_depot(item, self.posting_date)
 		if ex_depot:
 			return ex_depot
-		return flt(frappe.db.get_value("Item", self.item, "last_purchase_rate")) or flt(
-			frappe.db.get_value("Item", self.item, "valuation_rate")
+		return flt(frappe.db.get_value("Item", item, "last_purchase_rate")) or flt(
+			frappe.db.get_value("Item", item, "valuation_rate")
 		)
 
-	def set_charges(self):
-		"""Track the levies/charges embedded in this purchase (does not change valuation).
+	def set_totals(self):
+		self.total_bol_litres = sum(flt(r.bol_litres) for r in self.items)
+		self.total_received_litres = sum(flt(r.received_litres) for r in self.items)
+		self.total_shortfall_litres = sum(flt(r.shortfall_litres) for r in self.items)
+		self.total_amount = sum(flt(r.amount) for r in self.items)
 
-		If left blank, seed the rows from the default purchase charges configured in Fuel Pump
-		Settings; then value each row for the received quantity.
-		"""
+	def set_charges(self):
+		"""Track levies embedded in the purchase, per fuel item (does not change valuation)."""
+		received_by_item = {}
+		for row in self.items:
+			received_by_item[row.item] = received_by_item.get(row.item, 0.0) + flt(row.received_litres)
+
 		if not self.charges:
-			for default in frappe.get_all(
+			defaults = frappe.get_all(
 				"Fuel Price Component",
 				filters={"parenttype": "Fuel Pump Settings", "parentfield": "default_purchase_charges"},
 				fields=["component", "rate_per_litre", "account"],
 				order_by="idx asc",
-			):
-				self.append(
-					"charges",
-					{
-						"component": default.component,
-						"rate_per_litre": default.rate_per_litre,
-						"account": default.account,
-					},
-				)
+			)
+			for item in received_by_item:
+				for default in defaults:
+					self.append(
+						"charges",
+						{
+							"item": item,
+							"component": default.component,
+							"rate_per_litre": default.rate_per_litre,
+							"account": default.account,
+						},
+					)
 
 		for row in self.charges:
-			row.amount = flt(row.rate_per_litre) * flt(self.received_litres)
+			litres = received_by_item.get(row.item, self.total_received_litres)
+			row.amount = flt(row.rate_per_litre) * flt(litres)
 		self.total_charges = sum(flt(row.amount) for row in self.charges)
 
 	def set_status(self):
@@ -129,23 +136,25 @@ class TankerReceipt(Document):
 		return {0: "Draft", 1: "Submitted", 2: "Cancelled"}[self.docstatus]
 
 	def create_purchase_receipt(self):
-		"""
-		Create a Purchase Receipt for the dip-verified received quantity.
+		"""Create a Purchase Receipt for the dip-verified quantities (one line per product).
 
-		The purchase rate is set explicitly so fuel never enters stock at zero valuation
-		(which would corrupt COGS on every subsequent sale).
+		Each line's rate is set explicitly so fuel never enters stock at zero valuation.
 		"""
-		if self.purchase_receipt or flt(self.received_litres) <= 0:
+		if self.purchase_receipt or flt(self.total_received_litres) <= 0:
 			return
 
-		if flt(self.rate) <= 0:
-			frappe.throw(_("Set a Purchase Rate / Litre so the received fuel is valued correctly."))
+		for row in self.items:
+			if flt(row.received_litres) > 0 and flt(row.rate) <= 0:
+				frappe.throw(
+					_("Row #{0}: set a Rate / Litre so the received fuel is valued correctly.").format(
+						row.idx
+					)
+				)
 
-		warehouse = frappe.db.get_value("Tank", self.tank, "warehouse")
 		if self.purchase_order:
-			pr = self._purchase_receipt_from_po(warehouse)
+			pr = self._purchase_receipt_from_po()
 		else:
-			pr = self._standalone_purchase_receipt(warehouse)
+			pr = self._standalone_purchase_receipt()
 
 		pr.set_missing_values()
 		pr.flags.ignore_permissions = True
@@ -154,33 +163,36 @@ class TankerReceipt(Document):
 
 		self.db_set("purchase_receipt", pr.name)
 
-		if abs(flt(self.shortfall_litres)) >= 1:
+		if abs(flt(self.total_shortfall_litres)) >= 1:
 			frappe.msgprint(
 				_("Delivery shortfall of {0} litres recorded against BOL.").format(
-					flt(self.shortfall_litres, 3)
+					flt(self.total_shortfall_litres, 3)
 				),
 				alert=True,
 				indicator="orange",
 			)
 
-	def _standalone_purchase_receipt(self, warehouse):
+	def _standalone_purchase_receipt(self):
 		pr = frappe.new_doc("Purchase Receipt")
 		pr.company = self.company
 		pr.supplier = self.supplier
 		pr.posting_date = self.posting_date
 		pr.set_posting_time = 1
-		pr.append(
-			"items",
-			{
-				"item_code": self.item,
-				"qty": self.received_litres,
-				"rate": self.rate,
-				"warehouse": warehouse,
-			},
-		)
+		for row in self.items:
+			if flt(row.received_litres) <= 0:
+				continue
+			pr.append(
+				"items",
+				{
+					"item_code": row.item,
+					"qty": row.received_litres,
+					"rate": row.rate,
+					"warehouse": _tank_warehouse(row.tank),
+				},
+			)
 		return pr
 
-	def _purchase_receipt_from_po(self, warehouse):
+	def _purchase_receipt_from_po(self):
 		"""Receive against the linked Purchase Order so it updates and closes cleanly."""
 		from erpnext.buying.doctype.purchase_order.purchase_order import make_purchase_receipt
 
@@ -189,19 +201,26 @@ class TankerReceipt(Document):
 		pr.posting_date = self.posting_date
 		pr.set_posting_time = 1
 
-		rows = [d for d in pr.items if d.item_code == self.item]
-		if not rows:
-			frappe.throw(
-				_("Purchase Order {0} does not contain the tank's fuel item {1}.").format(
-					self.purchase_order, self.item
+		available = list(pr.items)
+		kept = []
+		for row in self.items:
+			if flt(row.received_litres) <= 0:
+				continue
+			match = next((d for d in available if d.item_code == row.item and d not in kept), None)
+			if not match:
+				frappe.throw(
+					_("Purchase Order {0} does not contain the fuel item {1} (row #{2}).").format(
+						self.purchase_order, row.item, row.idx
+					)
 				)
-			)
-		row = rows[0]
-		row.qty = self.received_litres
-		row.rate = self.rate
-		row.warehouse = warehouse
-		row.idx = 1
-		pr.items = [row]
+			match.qty = row.received_litres
+			match.rate = row.rate
+			match.warehouse = _tank_warehouse(row.tank)
+			kept.append(match)
+
+		for idx, item in enumerate(kept, start=1):
+			item.idx = idx
+		pr.items = kept
 		return pr
 
 	def cancel_purchase_receipt(self):
@@ -212,20 +231,34 @@ class TankerReceipt(Document):
 				pr.cancel()
 
 
+def _tank_warehouse(tank):
+	return frappe.db.get_value("Tank", tank, "warehouse") if tank else None
+
+
 @frappe.whitelist()
 def make_tanker_receipt(source_name: str, target_doc: str | dict | None = None):
-	"""Map a Purchase Order to a new Tanker Receipt (Create > Tanker Receipt on the PO)."""
+	"""Map a Purchase Order to a new Tanker Receipt (Create > Tanker Receipt on the PO).
+
+	Every ordered fuel item that maps to a tank becomes an item row, so a single PO covering
+	Petrol and Diesel produces one Tanker Receipt with a row per product.
+	"""
 	from frappe.model.mapper import get_mapped_doc
 
 	def post_process(source, target):
 		target.purchase_order = source.name
 		for item in source.items:
 			tank = frappe.db.get_value("Tank", {"item": item.item_code}, "name")
-			if tank:
-				target.tank = tank
-				target.bol_litres = item.qty
-				target.rate = item.rate
-				break
+			if not tank:
+				continue
+			target.append(
+				"items",
+				{
+					"tank": tank,
+					"item": item.item_code,
+					"bol_litres": item.qty,
+					"rate": item.rate,
+				},
+			)
 
 	return get_mapped_doc(
 		"Purchase Order",
