@@ -1,0 +1,32 @@
+{
+ "app": "fpms",
+ "bg_color": "blue",
+ "creation": "2026-07-09 14:52:14.696754",
+ "docstatus": 0,
+ "doctype": "Desktop Icon",
+ "hidden": 0,
+ "icon": "getting-started",
+ "icon_type": "Link",
+ "idx": 0,
+ "label": "FPMS",
+ "link_to": "Fuel Pump Management System",
+ "link_type": "Workspace Sidebar",
+ "modified": "2026-07-09 14:36:37.582049",
+ "modified_by": "Administrator",
+ "name": "FPMS",
+ "owner": "Administrator",
+ "restrict_removal": 0,
+ "roles": [
+  {
+   "role": "FPMS Manager"
+  },
+  {
+   "role": "FPMS Operator"
+  },
+  {
+   "role": "FPMS Cashier"
+  }
+ ],
+ "sidebar": "Fuel Pump Management System",
+ "standard": 1
+}

@@ -1,0 +1,72 @@
+{
+ "app": "fpms",
+ "creation": "2026-07-09 14:52:14.661823",
+ "docstatus": 0,
+ "doctype": "Workspace Sidebar",
+ "header_icon": "getting-started",
+ "idx": 0,
+ "items": [
+  {
+   "child": 0,
+   "collapsible": 1,
+   "indent": 0,
+   "keep_closed": 0,
+   "label": "Home",
+   "link_to": "Fuel Pump Management System",
+   "link_type": "Workspace",
+   "show_arrow": 0,
+   "type": "Link"
+  },
+  {
+   "child": 0,
+   "collapsible": 1,
+   "indent": 0,
+   "keep_closed": 0,
+   "label": "Shift Reconciliation",
+   "link_to": "Shift Reconciliation",
+   "link_type": "DocType",
+   "show_arrow": 0,
+   "type": "Link"
+  },
+  {
+   "child": 0,
+   "collapsible": 1,
+   "indent": 0,
+   "keep_closed": 0,
+   "label": "Dip Reading",
+   "link_to": "Dip Reading",
+   "link_type": "DocType",
+   "show_arrow": 0,
+   "type": "Link"
+  },
+  {
+   "child": 0,
+   "collapsible": 1,
+   "indent": 0,
+   "keep_closed": 0,
+   "label": "Fuel Price Notification",
+   "link_to": "Fuel Price Notification",
+   "link_type": "DocType",
+   "show_arrow": 0,
+   "type": "Link"
+  },
+  {
+   "child": 0,
+   "collapsible": 1,
+   "indent": 0,
+   "keep_closed": 0,
+   "label": "Wet-Stock Variance",
+   "link_to": "Wet-Stock Variance",
+   "link_type": "Report",
+   "show_arrow": 0,
+   "type": "Link"
+  }
+ ],
+ "modified": "2026-07-09 14:37:43.348774",
+ "modified_by": "Administrator",
+ "module": "Fuel Pump Management System",
+ "name": "Fuel Pump Management System",
+ "owner": "Administrator",
+ "standard": 1,
+ "title": "Fuel Pump Management System"
+}
