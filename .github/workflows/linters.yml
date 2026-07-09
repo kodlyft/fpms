@@ -25,7 +25,7 @@ jobs:
           cache: pip
 
       - name: Install and Run Pre-commit
-        uses: pre-commit/action@v3.0.0
+        uses: pre-commit/action@v3.0.1
         env:
           SKIP: no-commit-to-branch,prettier,eslint
 
