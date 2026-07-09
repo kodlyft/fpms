@@ -20,11 +20,14 @@
   "reading_details",
   "payments_section",
   "payment_details",
+  "credit_section",
+  "credit_sales",
   "totals_section",
   "total_fuel_litres",
   "total_fuel_sales",
   "column_break_totals",
   "total_collected",
+  "total_credit_sales",
   "variance_amount",
   "variance_status",
   "postings_section",
@@ -115,10 +118,23 @@
    "label": "Collections"
   },
   {
+   "description": "Cash / card / wallet actually collected this shift (exclude credit).",
    "fieldname": "payment_details",
    "fieldtype": "Table",
    "label": "Payment Details",
    "options": "Shift Payment"
+  },
+  {
+   "fieldname": "credit_section",
+   "fieldtype": "Section Break",
+   "label": "Credit Sales"
+  },
+  {
+   "description": "Fuel dispensed on account. Each customer is billed a Sales Invoice on credit (posts to their receivable).",
+   "fieldname": "credit_sales",
+   "fieldtype": "Table",
+   "label": "Credit Sales",
+   "options": "Fuel Credit Sale"
   },
   {
    "fieldname": "totals_section",
@@ -145,11 +161,17 @@
   {
    "fieldname": "total_collected",
    "fieldtype": "Currency",
-   "label": "Total Collected",
+   "label": "Cash / Card Collected",
    "read_only": 1
   },
   {
-   "description": "Collected minus calculated fuel sales. Positive = excess, negative = shortage.",
+   "fieldname": "total_credit_sales",
+   "fieldtype": "Currency",
+   "label": "Credit Billed",
+   "read_only": 1
+  },
+  {
+   "description": "(Collected + Credit billed) minus fuel dispensed. Positive = excess, negative = shortage.",
    "fieldname": "variance_amount",
    "fieldtype": "Currency",
    "label": "Variance Amount",

@@ -2,7 +2,7 @@
  "actions": [],
  "allow_rename": 1,
  "autoname": "naming_series:",
- "creation": "2026-07-09 00:00:00.000000",
+ "creation": "2026-07-09 00:00:00",
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
@@ -124,7 +124,7 @@
   },
   {
    "bold": 1,
-   "description": "Sum of the build-up components — published as the effective-dated Item Price.",
+   "description": "Sum of the build-up components published as the effective-dated Item Price.",
    "fieldname": "retail_price",
    "fieldtype": "Currency",
    "in_list_view": 1,
@@ -159,7 +159,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2026-07-09 00:00:00.000000",
+ "modified": "2026-07-09 13:18:29.706507",
  "modified_by": "Administrator",
  "module": "Fuel Pump Management System",
  "name": "Fuel Price Notification",

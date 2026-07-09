@@ -1,7 +1,7 @@
 {
  "app": "fpms",
  "charts": [],
- "content": "[{\"id\": \"hdr1\", \"type\": \"header\", \"data\": {\"text\": \"<span class=\\\"h4\\\"><b>Fuel Pump Management System</b></span>\", \"col\": 12}}, {\"id\": \"sc1\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Shift Reconciliation\", \"col\": 3}}, {\"id\": \"sc2\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Dip Reading\", \"col\": 3}}, {\"id\": \"sc3\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Fuel Price Notification\", \"col\": 3}}, {\"id\": \"sc4\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Wet-Stock Variance\", \"col\": 3}}, {\"id\": \"hdr2\", \"type\": \"header\", \"data\": {\"text\": \"<span class=\\\"h4\\\"><b>Operations, Masters & Reports</b></span>\", \"col\": 12}}, {\"id\": \"cd1\", \"type\": \"card\", \"data\": {\"card_name\": \"Operations\", \"col\": 3}}, {\"id\": \"cd2\", \"type\": \"card\", \"data\": {\"card_name\": \"Masters\", \"col\": 3}}, {\"id\": \"cd3\", \"type\": \"card\", \"data\": {\"card_name\": \"Pricing & Compliance\", \"col\": 3}}, {\"id\": \"cd4\", \"type\": \"card\", \"data\": {\"card_name\": \"Reports\", \"col\": 3}}]",
+ "content": "[{\"id\":\"hdr1\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>Fuel Pump Management System</b></span>\",\"col\":12}},{\"id\":\"sc1\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Shift Reconciliation\",\"col\":3}},{\"id\":\"sc2\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Dip Reading\",\"col\":3}},{\"id\":\"sc3\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Fuel Price Notification\",\"col\":3}},{\"id\":\"sc4\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Wet-Stock Variance\",\"col\":3}},{\"id\":\"hdr2\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>Operations, Masters &amp; Reports</b></span>\",\"col\":12}},{\"id\":\"cd1\",\"type\":\"card\",\"data\":{\"card_name\":\"Operations\",\"col\":3}},{\"id\":\"cd2\",\"type\":\"card\",\"data\":{\"card_name\":\"Masters\",\"col\":3}},{\"id\":\"cd3\",\"type\":\"card\",\"data\":{\"card_name\":\"Pricing & Compliance\",\"col\":3}},{\"id\":\"cd4\",\"type\":\"card\",\"data\":{\"card_name\":\"Reports\",\"col\":3}}]",
  "creation": "2026-07-09 00:00:00",
  "custom_blocks": [],
  "docstatus": 0,
@@ -173,7 +173,8 @@
    "hidden": 0,
    "is_query_report": 0,
    "label": "Reports",
-   "link_count": 3,
+   "link_count": 4,
+   "link_type": "DocType",
    "onboard": 0,
    "type": "Card Break"
   },
@@ -209,9 +210,19 @@
    "link_type": "Report",
    "onboard": 0,
    "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Credit Sales Register",
+   "link_count": 0,
+   "link_to": "Credit Sales Register",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
   }
  ],
- "modified": "2026-07-09 00:00:00",
+ "modified": "2026-07-09 13:42:20.880700",
  "modified_by": "Administrator",
  "module": "Fuel Pump Management System",
  "name": "Fuel Pump Management System",
@@ -246,11 +257,11 @@
    "type": "DocType"
   },
   {
-   "color": "Grey",
+   "doc_view": "",
    "label": "Wet-Stock Variance",
    "link_to": "Wet-Stock Variance",
-   "type": "Report",
-   "doc_view": "Report"
+   "report_ref_doctype": "Dip Reading",
+   "type": "Report"
   }
  ],
  "title": "Fuel Pump Management System",
