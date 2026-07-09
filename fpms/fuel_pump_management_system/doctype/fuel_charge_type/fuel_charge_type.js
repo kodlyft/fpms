@@ -1,26 +1,17 @@
 // Copyright (c) 2026, Kodlyft and contributors
 // For license information, please see license.txt
 
-frappe.ui.form.on("Tanker Receipt", {
+frappe.ui.form.on("Fuel Charge Type", {
 	setup: function (frm) {
-		frm.set_query("tanker", function () {
-			return {
-				filters: {
-					status: "Active",
-				},
-			};
-		});
-
-		frm.set_query("component", "charges", function () {
+		frm.set_query("default_account", function () {
 			return {
 				filters: {
 					disabled: 0,
-					company: frm.doc.company,
 				},
 			};
 		});
 
-		frm.set_query("account", "charges", function () {
+		frm.set_query("default_account", function () {
 			return {
 				filters: {
 					company: frm.doc.company,
@@ -30,5 +21,12 @@ frappe.ui.form.on("Tanker Receipt", {
 				},
 			};
 		});
+	},
+
+	company: function (frm) {
+		if (!frm.doc.company) {
+			frm.doc.default_account = null;
+			frm.refresh_field("default_account");
+		}
 	},
 });

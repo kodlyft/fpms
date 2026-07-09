@@ -57,8 +57,102 @@
   {
    "hidden": 0,
    "is_query_report": 0,
+   "label": "Pricing & Compliance",
+   "link_count": 3,
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Fuel Price Notification",
+   "link_count": 0,
+   "link_to": "Fuel Price Notification",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "License and Compliance Register",
+   "link_count": 0,
+   "link_to": "License and Compliance Register",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Fuel Pump Settings",
+   "link_count": 0,
+   "link_to": "Fuel Pump Settings",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Reports",
+   "link_count": 4,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Wet-Stock Variance",
+   "link_count": 0,
+   "link_to": "Wet-Stock Variance",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Shift Sales Summary",
+   "link_count": 0,
+   "link_to": "Shift Sales Summary",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Fuel Price History",
+   "link_count": 0,
+   "link_to": "Fuel Price History",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Credit Sales Register",
+   "link_count": 0,
+   "link_to": "Credit Sales Register",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
    "label": "Masters",
-   "link_count": 6,
+   "link_count": 7,
+   "link_type": "DocType",
    "onboard": 0,
    "type": "Card Break"
   },
@@ -131,109 +225,15 @@
   {
    "hidden": 0,
    "is_query_report": 0,
-   "label": "Pricing & Compliance",
-   "link_count": 3,
-   "onboard": 0,
-   "type": "Card Break"
-  },
-  {
-   "dependencies": "",
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Fuel Price Notification",
+   "label": "Fuel Charge Type",
    "link_count": 0,
-   "link_to": "Fuel Price Notification",
+   "link_to": "Fuel Charge Type",
    "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "dependencies": "",
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "License and Compliance Register",
-   "link_count": 0,
-   "link_to": "License and Compliance Register",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "dependencies": "",
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Fuel Pump Settings",
-   "link_count": 0,
-   "link_to": "Fuel Pump Settings",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Reports",
-   "link_count": 5,
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Card Break"
-  },
-  {
-   "dependencies": "",
-   "hidden": 0,
-   "is_query_report": 1,
-   "label": "Wet-Stock Variance",
-   "link_count": 0,
-   "link_to": "Wet-Stock Variance",
-   "link_type": "Report",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "dependencies": "",
-   "hidden": 0,
-   "is_query_report": 1,
-   "label": "Shift Sales Summary",
-   "link_count": 0,
-   "link_to": "Shift Sales Summary",
-   "link_type": "Report",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "dependencies": "",
-   "hidden": 0,
-   "is_query_report": 1,
-   "label": "Fuel Price History",
-   "link_count": 0,
-   "link_to": "Fuel Price History",
-   "link_type": "Report",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 1,
-   "label": "Credit Sales Register",
-   "link_count": 0,
-   "link_to": "Credit Sales Register",
-   "link_type": "Report",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "dependencies": "",
-   "hidden": 0,
-   "is_query_report": 1,
-   "label": "Fuel Levy and Charges",
-   "link_count": 0,
-   "link_to": "Fuel Levy and Charges",
-   "link_type": "Report",
    "onboard": 0,
    "type": "Link"
   }
  ],
- "modified": "2026-07-09 13:42:20.880700",
+ "modified": "2026-07-09 20:34:56.672540",
  "modified_by": "Administrator",
  "module": "Fuel Pump Management System",
  "name": "Fuel Pump Management System",

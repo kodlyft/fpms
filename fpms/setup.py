@@ -49,6 +49,16 @@ FPMS_TAX_TEMPLATES = (
 	("Standard 18% - Lubricants & C-Store", 18.0),
 )
 
+FPMS_CHARGE_TYPES = (
+	"Dealer Commission",
+	"OMC Margin",
+	"Petroleum Development Levy",
+	"Climate Support Levy",
+	"Sales Tax",
+	"Customs Duty",
+	"Inland Freight Equalisation Margin",
+)
+
 
 def ensure_roles():
 	for role_name, desk_access in FPMS_ROLES:
@@ -94,6 +104,27 @@ def ensure_tax_templates():
 				pass
 
 
+def ensure_charge_types():
+	"""Seed the standard Fuel Charge Types and adopt any values already used on rows."""
+	if not frappe.db.exists("DocType", "Fuel Charge Type"):
+		return
+
+	names = set(FPMS_CHARGE_TYPES)
+	for child in ("Fuel Price Component", "Fuel Purchase Charge"):
+		if frappe.db.has_column(child, "component"):
+			names.update(
+				frappe.db.sql_list(
+					f"SELECT DISTINCT component FROM `tab{child}` WHERE component IS NOT NULL AND component != ''"
+				)
+			)
+
+	for name in names:
+		if not frappe.db.exists("Fuel Charge Type", name):
+			frappe.get_doc({"doctype": "Fuel Charge Type", "charge_type": name}).insert(
+				ignore_permissions=True
+			)
+
+
 def _sales_tax_account(company):
 	abbr = frappe.get_cached_value("Company", company, "abbr")
 	for candidate in (f"VAT - {abbr}", f"Sales Tax - {abbr}", f"Output Tax - {abbr}"):
@@ -109,9 +140,11 @@ def before_install():
 def after_install():
 	ensure_roles()
 	ensure_custom_fields()
+	ensure_charge_types()
 	ensure_tax_templates()
 
 
 def after_migrate():
 	ensure_roles()
 	ensure_custom_fields()
+	ensure_charge_types()

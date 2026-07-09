@@ -142,20 +142,11 @@ class TankerReceipt(Document):
 			frappe.throw(_("Set a Purchase Rate / Litre so the received fuel is valued correctly."))
 
 		warehouse = frappe.db.get_value("Tank", self.tank, "warehouse")
-		pr = frappe.new_doc("Purchase Receipt")
-		pr.company = self.company
-		pr.supplier = self.supplier
-		pr.posting_date = self.posting_date
-		pr.set_posting_time = 1
-		pr.append(
-			"items",
-			{
-				"item_code": self.item,
-				"qty": self.received_litres,
-				"rate": self.rate,
-				"warehouse": warehouse,
-			},
-		)
+		if self.purchase_order:
+			pr = self._purchase_receipt_from_po(warehouse)
+		else:
+			pr = self._standalone_purchase_receipt(warehouse)
+
 		pr.set_missing_values()
 		pr.flags.ignore_permissions = True
 		pr.insert()
@@ -172,9 +163,80 @@ class TankerReceipt(Document):
 				indicator="orange",
 			)
 
+	def _standalone_purchase_receipt(self, warehouse):
+		pr = frappe.new_doc("Purchase Receipt")
+		pr.company = self.company
+		pr.supplier = self.supplier
+		pr.posting_date = self.posting_date
+		pr.set_posting_time = 1
+		pr.append(
+			"items",
+			{
+				"item_code": self.item,
+				"qty": self.received_litres,
+				"rate": self.rate,
+				"warehouse": warehouse,
+			},
+		)
+		return pr
+
+	def _purchase_receipt_from_po(self, warehouse):
+		"""Receive against the linked Purchase Order so it updates and closes cleanly."""
+		from erpnext.buying.doctype.purchase_order.purchase_order import make_purchase_receipt
+
+		pr = make_purchase_receipt(self.purchase_order)
+		pr.company = self.company
+		pr.posting_date = self.posting_date
+		pr.set_posting_time = 1
+
+		rows = [d for d in pr.items if d.item_code == self.item]
+		if not rows:
+			frappe.throw(
+				_("Purchase Order {0} does not contain the tank's fuel item {1}.").format(
+					self.purchase_order, self.item
+				)
+			)
+		row = rows[0]
+		row.qty = self.received_litres
+		row.rate = self.rate
+		row.warehouse = warehouse
+		row.idx = 1
+		pr.items = [row]
+		return pr
+
 	def cancel_purchase_receipt(self):
 		if self.purchase_receipt and frappe.db.exists("Purchase Receipt", self.purchase_receipt):
 			pr = frappe.get_doc("Purchase Receipt", self.purchase_receipt)
 			if pr.docstatus == 1:
 				pr.flags.ignore_permissions = True
 				pr.cancel()
+
+
+@frappe.whitelist()
+def make_tanker_receipt(source_name: str, target_doc: str | dict | None = None):
+	"""Map a Purchase Order to a new Tanker Receipt (Create > Tanker Receipt on the PO)."""
+	from frappe.model.mapper import get_mapped_doc
+
+	def post_process(source, target):
+		target.purchase_order = source.name
+		for item in source.items:
+			tank = frappe.db.get_value("Tank", {"item": item.item_code}, "name")
+			if tank:
+				target.tank = tank
+				target.bol_litres = item.qty
+				target.rate = item.rate
+				break
+
+	return get_mapped_doc(
+		"Purchase Order",
+		source_name,
+		{
+			"Purchase Order": {
+				"doctype": "Tanker Receipt",
+				"field_map": {"company": "company", "supplier": "supplier"},
+				"validation": {"docstatus": ["=", 1]},
+			}
+		},
+		target_doc,
+		post_process,
+	)

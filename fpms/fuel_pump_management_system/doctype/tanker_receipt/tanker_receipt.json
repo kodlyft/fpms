@@ -17,7 +17,6 @@
   "purchase_order",
   "driver_name",
   "vehicle_number",
-  "status",
   "quantities_section",
   "bol_litres",
   "dip_before_mm",
@@ -34,10 +33,14 @@
   "charges_section",
   "charges",
   "total_charges",
+  "quality_tab",
   "quality_section",
   "temperature",
   "column_break_quality",
   "density",
+  "more_info_tab",
+  "status_section",
+  "status",
   "postings_section",
   "purchase_receipt",
   "amended_from"
@@ -246,7 +249,7 @@
   {
    "fieldname": "postings_section",
    "fieldtype": "Section Break",
-   "label": "Postings"
+   "label": "References"
   },
   {
    "fieldname": "purchase_receipt",
@@ -272,13 +275,28 @@
    "label": "Company",
    "options": "Company",
    "reqd": 1
+  },
+  {
+   "fieldname": "quality_tab",
+   "fieldtype": "Tab Break",
+   "label": "Quality"
+  },
+  {
+   "fieldname": "more_info_tab",
+   "fieldtype": "Tab Break",
+   "label": "More Info"
+  },
+  {
+   "fieldname": "status_section",
+   "fieldtype": "Section Break",
+   "label": "Status"
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2026-07-09 18:52:43.843480",
+ "modified": "2026-07-09 20:40:43.954427",
  "modified_by": "Administrator",
  "module": "Fuel Pump Management System",
  "name": "Tanker Receipt",

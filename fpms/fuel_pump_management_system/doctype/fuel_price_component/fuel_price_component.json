@@ -13,11 +13,12 @@
  "fields": [
   {
    "columns": 5,
-   "description": "e.g. Dealer Commission, OMC Margin, Petroleum Development Levy, Climate Support Levy, Sales Tax, Customs Duty, IFEM.",
+   "description": "Pick from Fuel Charge Types (e.g. Dealer Commission, OMC Margin, Petroleum Development Levy, Climate Support Levy, Sales Tax).",
    "fieldname": "component",
-   "fieldtype": "Data",
+   "fieldtype": "Link",
    "in_list_view": 1,
    "label": "Component",
+   "options": "Fuel Charge Type",
    "reqd": 1
   },
   {
@@ -32,6 +33,8 @@
   {
    "columns": 4,
    "description": "Optional GL account for tracking / reference.",
+   "fetch_from": "component.default_account",
+   "fetch_if_empty": 1,
    "fieldname": "account",
    "fieldtype": "Link",
    "in_list_view": 1,

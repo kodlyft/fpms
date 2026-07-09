@@ -4,7 +4,7 @@
 from frappe.model.document import Document
 
 
-class FuelPurchaseCharge(Document):
+class FuelChargeType(Document):
 	# begin: auto-generated types
 	# This code is auto-generated. Do not modify anything in this block.
 
@@ -13,13 +13,11 @@ class FuelPurchaseCharge(Document):
 	if TYPE_CHECKING:
 		from frappe.types import DF
 
-		account: DF.Link | None
-		amount: DF.Currency
-		component: DF.Link
-		parent: DF.Data
-		parentfield: DF.Data
-		parenttype: DF.Data
-		rate_per_litre: DF.Currency
+		charge_type: DF.Data
+		company: DF.Link
+		default_account: DF.Link | None
+		description: DF.SmallText | None
+		disabled: DF.Check
 	# end: auto-generated types
 
 	pass

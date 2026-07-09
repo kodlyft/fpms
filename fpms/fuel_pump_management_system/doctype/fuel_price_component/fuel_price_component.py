@@ -14,7 +14,7 @@ class FuelPriceComponent(Document):
 		from frappe.types import DF
 
 		account: DF.Link | None
-		component: DF.Data
+		component: DF.Link
 		parent: DF.Data
 		parentfield: DF.Data
 		parenttype: DF.Data

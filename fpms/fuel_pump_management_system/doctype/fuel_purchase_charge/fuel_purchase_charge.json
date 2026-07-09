@@ -1,7 +1,7 @@
 {
  "actions": [],
  "allow_rename": 1,
- "creation": "2026-07-09 00:00:00.000000",
+ "creation": "2026-07-09 00:00:00",
  "doctype": "DocType",
  "editable_grid": 1,
  "engine": "InnoDB",
@@ -14,11 +14,12 @@
  "fields": [
   {
    "columns": 4,
-   "description": "Levy / charge embedded in this purchase, e.g. Petroleum Development Levy, Sales Tax, Customs Duty.",
+   "description": "Levy / charge embedded in this purchase. Pick from Fuel Charge Types.",
    "fieldname": "component",
-   "fieldtype": "Data",
+   "fieldtype": "Link",
    "in_list_view": 1,
    "label": "Component",
+   "options": "Fuel Charge Type",
    "reqd": 1
   },
   {
@@ -40,6 +41,8 @@
   },
   {
    "columns": 3,
+   "fetch_from": "component.default_account",
+   "fetch_if_empty": 1,
    "fieldname": "account",
    "fieldtype": "Link",
    "in_list_view": 1,
@@ -51,7 +54,7 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2026-07-09 00:00:00.000000",
+ "modified": "2026-07-09 20:37:45.990623",
  "modified_by": "Administrator",
  "module": "Fuel Pump Management System",
  "name": "Fuel Purchase Charge",
