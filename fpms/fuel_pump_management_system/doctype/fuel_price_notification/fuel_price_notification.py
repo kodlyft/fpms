@@ -96,6 +96,17 @@ class FuelPriceNotification(Document):
 		self.db_set("item_price", ip.name)
 
 	def remove_item_price(self):
-		if self.item_price and frappe.db.exists("Item Price", self.item_price):
-			frappe.delete_doc("Item Price", self.item_price, ignore_permissions=True)
+		item_price = self.item_price
+		if not item_price:
+			return
+
 		self.db_set("item_price", None)
+
+		if frappe.db.exists("Item Price", item_price):
+			try:
+				frappe.delete_doc("Item Price", item_price, ignore_permissions=True, force=True)
+			except frappe.LinkExistsError:
+				frappe.msgprint(
+					_("Item Price {0} is used elsewhere and was kept.").format(item_price),
+					alert=True,
+				)
