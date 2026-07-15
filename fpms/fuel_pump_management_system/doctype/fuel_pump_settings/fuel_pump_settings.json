@@ -23,6 +23,7 @@
   "column_break_accounts",
   "excess_account",
   "purchase_charges_section",
+  "apply_fuel_levies_on_purchase",
   "default_purchase_charges"
  ],
  "fields": [
@@ -126,6 +127,13 @@
    "fieldname": "purchase_charges_section",
    "fieldtype": "Section Break",
    "label": "Default Purchase Levies & Charges"
+  },
+  {
+   "default": "1",
+   "description": "Write these levies onto the Taxes and Charges table of every Purchase Order, Purchase Receipt and Purchase Invoice that contains a fuel item. Individual documents can opt out with \"Skip FPMS Fuel Levies\".",
+   "fieldname": "apply_fuel_levies_on_purchase",
+   "fieldtype": "Check",
+   "label": "Apply Fuel Levies on Purchases"
   },
   {
    "description": "Standard levies / taxes embedded in fuel purchases. New Tanker Receipts pre-fill their Charges table from these rows (scaled by received litres).",

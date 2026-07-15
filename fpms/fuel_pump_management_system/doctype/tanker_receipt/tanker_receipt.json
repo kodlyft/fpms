@@ -29,6 +29,7 @@
   "total_charges",
   "postings_section",
   "purchase_receipt",
+  "purchase_invoice",
   "column_break_post",
   "amended_from"
  ],
@@ -106,7 +107,7 @@
    "label": "Items (one row per product / tank)"
   },
   {
-   "description": "A single tanker can deliver multiple products (e.g. Petrol and Diesel) into different tanks — add one row per product.",
+   "description": "A single tanker can deliver multiple products (e.g. Petrol and Diesel) into different tanks. Add one row per product.",
    "fieldname": "items",
    "fieldtype": "Table",
    "label": "Items",
@@ -178,6 +179,16 @@
    "label": "Purchase Receipt",
    "no_copy": 1,
    "options": "Purchase Receipt",
+   "read_only": 1
+  },
+  {
+   "allow_on_submit": 1,
+   "description": "Set when the OMC's invoice is booked against the Purchase Receipt.",
+   "fieldname": "purchase_invoice",
+   "fieldtype": "Link",
+   "label": "Purchase Invoice",
+   "no_copy": 1,
+   "options": "Purchase Invoice",
    "read_only": 1
   },
   {

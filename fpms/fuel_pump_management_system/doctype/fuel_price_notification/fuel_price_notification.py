@@ -57,7 +57,7 @@ class FuelPriceNotification(Document):
 	def create_item_price(self):
 		"""Publish the notified retail price as a dated, effective ERPNext Item Price.
 
-		Validity is enforced purely through the ``valid_from`` date on the Item Price — never
+		Validity is enforced purely through the ``valid_from`` date on the Item Price. Never
 		through Pricing Rule ``valid_upto`` (frappe/erpnext#50122).
 		"""
 		if self.item_price:

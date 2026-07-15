@@ -72,5 +72,5 @@ def get_effective_ex_depot(item_code: str, on_date=None) -> float:
 
 
 def clear_price_cache(doc, method=None):
-	"""Hooked on ``Item Price`` update — placeholder for future price caching."""
+	"""Hooked on ``Item Price`` update placeholder for future price caching."""
 	frappe.cache().delete_value("fpms_effective_price")

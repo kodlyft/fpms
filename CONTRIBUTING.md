@@ -137,7 +137,7 @@ test: add unit tests for wet-stock variance
 
 2. **Push** your branch and open a Pull Request against the `version-16` branch.
 
-3. Fill out the PR template completely — describe what changed and why.
+3. Fill out the PR template completely describe what changed and why.
 
 4. Ensure all CI checks pass (linting, semgrep, tests).
 

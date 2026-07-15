@@ -22,7 +22,7 @@ class Nozzle(Document):
 		nozzle_id: DF.Data | None
 		nozzle_name: DF.Data
 		status: DF.Literal["Active", "Inactive", "Under Maintenance"]
-		tank: DF.Link | None
+		tank: DF.Link
 	# end: auto-generated types
 
 	def autoname(self):

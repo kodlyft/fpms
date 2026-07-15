@@ -10,6 +10,8 @@
   "company",
   "default_account",
   "column_break_utku",
+  "included_in_rate",
+  "category",
   "disabled",
   "description_section",
   "description"
@@ -30,12 +32,28 @@
    "label": "Disabled"
   },
   {
-   "description": "Optional default GL account used for tracking / reference on price and purchase rows.",
+   "description": "GL account this levy is carved out to on the Purchase Receipt and Purchase Invoice. Each levy needs its own account so its rate can be tracked separately.",
    "fieldname": "default_account",
    "fieldtype": "Link",
    "in_list_view": 1,
-   "label": "Default Account",
+   "label": "Levy Account",
    "options": "Account"
+  },
+  {
+   "default": "1",
+   "description": "The levy is already inside the price the OMC invoices, so it is carved out of the item rate instead of added on top. Clear this only for a charge the supplier bills over and above the rate.",
+   "fieldname": "included_in_rate",
+   "fieldtype": "Check",
+   "label": "Included in Supplier Rate"
+  },
+  {
+   "default": "Valuation and Total",
+   "description": "\"Valuation and Total\" keeps the fuel valued at the full ex-depot rate. \"Total\" charges the levy to its own account instead of stock.",
+   "fieldname": "category",
+   "fieldtype": "Select",
+   "label": "Tax Category",
+   "options": "Valuation and Total\nTotal\nValuation",
+   "reqd": 1
   },
   {
    "fieldname": "description",

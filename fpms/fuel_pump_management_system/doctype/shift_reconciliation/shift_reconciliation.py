@@ -190,8 +190,8 @@ class ShiftReconciliation(Document):
 		if not customer:
 			frappe.msgprint(
 				_(
-					"No default customer set on the POS Profile or Fuel Pump Settings — "
-					"skipping the cash Sales Invoice. Cash-sold wet-stock was not relieved."
+					"No default customer set on the POS Profile or Fuel Pump Settings. "
+					"Skipping the cash Sales Invoice. Cash-sold wet-stock was not relieved."
 				),
 				alert=True,
 			)

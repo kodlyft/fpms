@@ -1,12 +1,15 @@
 # Copyright (c) 2026, Kodlyft and contributors
 # For license information, please see license.txt
 
+import json
+
 import frappe
 from frappe import _
 from frappe.model.document import Document
 from frappe.utils import flt
 
 from fpms.events.pricing import get_effective_ex_depot
+from fpms.events.purchase_taxes import apply_charges, levy_accounts
 
 
 class TankerReceipt(Document):
@@ -32,6 +35,7 @@ class TankerReceipt(Document):
 		items: DF.Table[TankerReceiptItem]
 		naming_series: DF.Literal["FPMS-TANKER-.YYYY.-"]
 		posting_date: DF.Date
+		purchase_invoice: DF.Link | None
 		purchase_order: DF.Link | None
 		purchase_receipt: DF.Link | None
 		status: DF.Literal["Draft", "Submitted", "Cancelled"]
@@ -100,34 +104,78 @@ class TankerReceipt(Document):
 		self.total_amount = sum(flt(r.amount) for r in self.items)
 
 	def set_charges(self):
-		"""Track levies embedded in the purchase, per fuel item (does not change valuation)."""
+		"""Record the levies embedded in this purchase, per fuel item.
+
+		They are carried onto the Purchase Receipt as inclusive taxes, so they report what
+		each litre of the ex-depot price was made of without changing what is owed or how the
+		fuel is valued.
+		"""
 		received_by_item = {}
 		for row in self.items:
 			received_by_item[row.item] = received_by_item.get(row.item, 0.0) + flt(row.received_litres)
 
+		if not self.charges and self.purchase_order:
+			self._seed_charges_from_purchase_order(received_by_item)
 		if not self.charges:
-			defaults = frappe.get_all(
-				"Fuel Price Component",
-				filters={"parenttype": "Fuel Pump Settings", "parentfield": "default_purchase_charges"},
-				fields=["component", "rate_per_litre", "account"],
-				order_by="idx asc",
-			)
-			for item in received_by_item:
-				for default in defaults:
-					self.append(
-						"charges",
-						{
-							"item": item,
-							"component": default.component,
-							"rate_per_litre": default.rate_per_litre,
-							"account": default.account,
-						},
-					)
+			self._seed_charges_from_settings(received_by_item)
 
 		for row in self.charges:
 			litres = received_by_item.get(row.item, self.total_received_litres)
 			row.amount = flt(row.rate_per_litre) * flt(litres)
 		self.total_charges = sum(flt(row.amount) for row in self.charges)
+
+	def _seed_charges_from_purchase_order(self, received_by_item):
+		"""Recover the ordered levies from the tax map ERPNext stored on the ordered items.
+
+		The map holds each levy as a percentage of the levy-exclusive rate, so multiplying it
+		back out by that rate returns the rupees per litre the order was placed at.
+		"""
+		components = levy_accounts(self.company)
+		rows = frappe.get_all(
+			"Purchase Order Item",
+			filters={"parent": self.purchase_order},
+			fields=["item_code", "item_tax_rate", "net_rate"],
+			order_by="idx asc",
+		)
+
+		seen = set()
+		for row in rows:
+			if row.item_code not in received_by_item:
+				continue
+			for account, percentage in json.loads(row.item_tax_rate or "{}").items():
+				component = components.get(account)
+				rate_per_litre = flt(flt(percentage) / 100 * flt(row.net_rate), 3)
+				if not component or not rate_per_litre or (row.item_code, component) in seen:
+					continue
+				seen.add((row.item_code, component))
+				self.append(
+					"charges",
+					{
+						"item": row.item_code,
+						"component": component,
+						"rate_per_litre": rate_per_litre,
+						"account": account,
+					},
+				)
+
+	def _seed_charges_from_settings(self, received_by_item):
+		defaults = frappe.get_all(
+			"Fuel Price Component",
+			filters={"parenttype": "Fuel Pump Settings", "parentfield": "default_purchase_charges"},
+			fields=["component", "rate_per_litre", "account"],
+			order_by="idx asc",
+		)
+		for item in received_by_item:
+			for default in defaults:
+				self.append(
+					"charges",
+					{
+						"item": item,
+						"component": default.component,
+						"rate_per_litre": default.rate_per_litre,
+						"account": default.account,
+					},
+				)
 
 	def set_status(self):
 		self.status = self._status_value()
@@ -157,6 +205,7 @@ class TankerReceipt(Document):
 			pr = self._standalone_purchase_receipt()
 
 		pr.set_missing_values()
+		apply_charges(pr, self.charges)
 		pr.flags.ignore_permissions = True
 		pr.insert()
 		pr.submit()

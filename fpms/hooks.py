@@ -146,6 +146,17 @@ doc_events = {
 	"Item Price": {
 		"on_update": "fpms.events.pricing.clear_price_cache",
 	},
+	"Purchase Order": {
+		"before_validate": "fpms.events.purchase_taxes.apply_fuel_levies",
+	},
+	"Purchase Receipt": {
+		"before_validate": "fpms.events.purchase_taxes.apply_fuel_levies",
+	},
+	"Purchase Invoice": {
+		"before_validate": "fpms.events.purchase_taxes.apply_fuel_levies",
+		"on_submit": "fpms.events.purchase.link_tanker_receipt",
+		"on_cancel": "fpms.events.purchase.unlink_tanker_receipt",
+	},
 }
 
 # Scheduled Tasks
@@ -180,9 +191,20 @@ scheduler_events = {
 # each overriding function accepts a `data` argument;
 # generated from the base implementation of the doctype dashboard,
 # along with any modifications made in other Frappe apps
-# override_doctype_dashboards = {
-# 	"Task": "fpms.task.get_dashboard_data"
-# }
+
+override_doctype_dashboards = {
+	"Purchase Order": "fpms.dashboards.purchase_order",
+	"Purchase Receipt": "fpms.dashboards.purchase_receipt",
+	"Purchase Invoice": "fpms.dashboards.purchase_invoice",
+	"Sales Invoice": "fpms.dashboards.sales_invoice",
+	"Item": "fpms.dashboards.item",
+	"Item Price": "fpms.dashboards.item_price",
+	"Warehouse": "fpms.dashboards.warehouse",
+	"Supplier": "fpms.dashboards.supplier",
+	"Customer": "fpms.dashboards.customer",
+	"Employee": "fpms.dashboards.employee",
+	"Account": "fpms.dashboards.account",
+}
 
 # exempt linked doctypes from being automatically cancelled
 #

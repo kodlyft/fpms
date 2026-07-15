@@ -67,7 +67,7 @@ class DipReading(Document):
 		if not self.within_tolerance:
 			frappe.msgprint(
 				_(
-					"Dip variance {0}% exceeds the {1}% tolerance — investigate for leak or short delivery."
+					"Dip variance {0}% exceeds the {1}% tolerance. Investigate for leak or short delivery."
 				).format(flt(self.variance_pct, 2), threshold),
 				alert=True,
 				indicator="orange",

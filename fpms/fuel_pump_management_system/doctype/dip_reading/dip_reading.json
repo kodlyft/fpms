@@ -119,7 +119,7 @@
    "read_only": 1
   },
   {
-   "description": "Optional — used only when volume correction (VCF) is enabled.",
+   "description": "Optional, used only when volume correction (VCF) is enabled.",
    "fieldname": "temperature",
    "fieldtype": "Float",
    "label": "Temperature (°C)"

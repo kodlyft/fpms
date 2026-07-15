@@ -32,8 +32,7 @@
    "in_standard_filter": 1,
    "label": "Warehouse",
    "options": "Warehouse",
-   "reqd": 1,
-   "unique": 1
+   "reqd": 1
   },
   {
    "fieldname": "item",
@@ -85,24 +84,8 @@
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
- "links": [
-  {
-   "group": "Operations",
-   "link_doctype": "Dip Reading",
-   "link_fieldname": "tank"
-  },
-  {
-   "group": "Operations",
-   "link_doctype": "Tanker Receipt",
-   "link_fieldname": "tank"
-  },
-  {
-   "group": "Operations",
-   "link_doctype": "Nozzle",
-   "link_fieldname": "tank"
-  }
- ],
- "modified": "2026-07-09 18:47:05.320336",
+ "links": [],
+ "modified": "2026-07-09 23:14:34.356195",
  "modified_by": "Administrator",
  "module": "Fuel Pump Management System",
  "name": "Tank",

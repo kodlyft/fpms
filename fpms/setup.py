@@ -44,6 +44,18 @@ FPMS_CUSTOM_FIELDS = {
 	],
 }
 
+_SKIP_LEVIES_FIELD = {
+	"fieldname": "fpms_skip_levies",
+	"label": "Skip FPMS Fuel Levies",
+	"fieldtype": "Check",
+	"insert_after": "taxes_and_charges",
+	"print_hide": 1,
+	"description": "Do not add the fuel levies configured in Fuel Pump Settings to this document.",
+}
+
+for _purchase_doctype in ("Purchase Order", "Purchase Receipt", "Purchase Invoice"):
+	FPMS_CUSTOM_FIELDS[_purchase_doctype] = [dict(_SKIP_LEVIES_FIELD)]
+
 FPMS_TAX_TEMPLATES = (
 	("Fuel - Zero Rated", 0.0),
 	("Standard 18% - Lubricants & C-Store", 18.0),
@@ -140,6 +152,84 @@ def ensure_charge_types():
 			doc.insert(ignore_permissions=True)
 
 
+def ensure_charge_accounts():
+	"""
+	Give every Fuel Charge Type its own levy account.
+
+	The levy accounts are credited when fuel is received and debited back when the OMC's
+	invoice is booked, so they net to zero. They exist to expose what each litre of the
+	ex-depot price was made of. ERPNext keys the per-litre rate of a tax row by its account,
+	so two levies can never share one.
+	"""
+	if not frappe.db.exists("DocType", "Fuel Charge Type"):
+		return
+
+	parents = {}
+	for charge in frappe.get_all(
+		"Fuel Charge Type", filters={"default_account": ["is", "not set"]}, fields=["name", "company"]
+	):
+		if not charge.company:
+			continue
+
+		if charge.company not in parents:
+			parents[charge.company] = _levy_parent_account(charge.company)
+		parent = parents[charge.company]
+		if not parent:
+			continue
+
+		account = _create_levy_account(charge.name, charge.company, parent)
+		if account:
+			frappe.db.set_value("Fuel Charge Type", charge.name, "default_account", account)
+
+
+def _create_levy_account(charge_type, company, parent):
+	abbr = frappe.get_cached_value("Company", company, "abbr")
+	name = f"{charge_type} - {abbr}"
+
+	if frappe.db.exists("Account", name):
+		return name if not frappe.db.get_value("Account", name, "is_group") else None
+
+	doc = frappe.new_doc("Account")
+	doc.account_name = charge_type
+	doc.company = company
+	doc.parent_account = parent
+	doc.account_type = "Expenses Included In Valuation"
+	doc.flags.ignore_permissions = True
+	doc.insert()
+	return doc.name
+
+
+def _levy_parent_account(company):
+	abbr = frappe.get_cached_value("Company", company, "abbr")
+	name = f"Fuel Levies - {abbr}"
+	if frappe.db.exists("Account", name):
+		return name
+
+	parent = None
+	for candidate in (f"Stock Expenses - {abbr}", f"Indirect Expenses - {abbr}", f"Expenses - {abbr}"):
+		if frappe.db.get_value("Account", candidate, "is_group"):
+			parent = candidate
+			break
+
+	if not parent:
+		parent = frappe.db.get_value(
+			"Account",
+			{"company": company, "root_type": "Expense", "is_group": 1, "parent_account": ["is", "not set"]},
+			"name",
+		)
+	if not parent:
+		return None
+
+	doc = frappe.new_doc("Account")
+	doc.account_name = "Fuel Levies"
+	doc.company = company
+	doc.parent_account = parent
+	doc.is_group = 1
+	doc.flags.ignore_permissions = True
+	doc.insert()
+	return doc.name
+
+
 def _sales_tax_account(company):
 	abbr = frappe.get_cached_value("Company", company, "abbr")
 	for candidate in (f"VAT - {abbr}", f"Sales Tax - {abbr}", f"Output Tax - {abbr}"):
@@ -156,6 +246,7 @@ def after_install():
 	ensure_roles()
 	ensure_custom_fields()
 	ensure_charge_types()
+	ensure_charge_accounts()
 	ensure_tax_templates()
 
 
@@ -163,3 +254,4 @@ def after_migrate():
 	ensure_roles()
 	ensure_custom_fields()
 	ensure_charge_types()
+	ensure_charge_accounts()

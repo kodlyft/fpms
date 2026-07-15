@@ -44,7 +44,7 @@ def _notify_managers(due):
 		return
 
 	rows = "\n".join(
-		f"- {d['license_type']} {d['license_number'] or ''} — {d['status']} (expires {d['expiry_date']})"
+		f"- {d['license_type']} {d['license_number'] or ''} - {d['status']} (expires {d['expiry_date']})"
 		for d in due
 	)
 	frappe.sendmail(

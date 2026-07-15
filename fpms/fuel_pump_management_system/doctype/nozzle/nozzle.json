@@ -51,7 +51,8 @@
    "fieldtype": "Link",
    "in_standard_filter": 1,
    "label": "Dispenser",
-   "options": "Dispenser"
+   "options": "Dispenser",
+   "search_index": 1
   },
   {
    "fieldname": "tank",
@@ -59,7 +60,8 @@
    "in_list_view": 1,
    "in_standard_filter": 1,
    "label": "Tank",
-   "options": "Tank"
+   "options": "Tank",
+   "reqd": 1
   },
   {
    "fetch_from": "tank.item",
@@ -67,7 +69,8 @@
    "fieldtype": "Link",
    "in_list_view": 1,
    "label": "Fuel Item",
-   "options": "Item"
+   "options": "Item",
+   "read_only": 1
   },
   {
    "fieldname": "readings_section",
@@ -99,7 +102,7 @@
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-07-09 00:00:00.000000",
+ "modified": "2026-07-15 17:01:27.522111",
  "modified_by": "Administrator",
  "module": "Fuel Pump Management System",
  "name": "Nozzle",

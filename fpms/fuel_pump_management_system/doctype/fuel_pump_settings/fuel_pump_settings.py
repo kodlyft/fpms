@@ -17,6 +17,7 @@ class FuelPumpSettings(Document):
 			FuelPriceComponent,
 		)
 
+		apply_fuel_levies_on_purchase: DF.Check
 		auto_stock_reconcile: DF.Check
 		dealer_commission_account: DF.Link | None
 		default_company: DF.Link | None
